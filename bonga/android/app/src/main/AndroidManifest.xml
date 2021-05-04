@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.bonga_android_chat.app">
+    package="com.github.adamrao.bonga">
    <application
-        android:label="app"
+        android:label="bonga"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

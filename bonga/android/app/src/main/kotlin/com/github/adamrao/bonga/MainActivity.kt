@@ -1,4 +1,4 @@
-package com.github.bonga_android_chat.app
+package com.github.adamrao.bonga
 
 import io.flutter.embedding.android.FlutterActivity
 

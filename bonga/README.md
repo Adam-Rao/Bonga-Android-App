@@ -1,6 +1,6 @@
-# app
+# bonga
 
-Android Chat Application
+A new Flutter project.
 
 ## Getting Started
 
