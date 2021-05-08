@@ -10,7 +10,17 @@ Color kPrimaryTextColour = Color(0xFF212121);
 Color kPrimarySecondaryTextColour = Color(0xFF757575);
 Color kPrimaryDividerColour = Color(0xFFBDBDBD);
 
-// FontWeights
+// Font
+String kFontFamily = 'Poppins';
+double kHintTextSize = 12.0;
+
 FontWeight kFontWeightRegular = FontWeight.w400;
 FontWeight kFontWeightSemiBold = FontWeight.w600;
 FontWeight kFontWeightBold = FontWeight.w700;
+
+// Auth Validation Regex
+RegExp KEmailRegExPattern = RegExp(
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+RegExp kPasswordRegExPattern =
+    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');

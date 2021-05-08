@@ -1,4 +1,5 @@
 import 'package:bonga/views/AuthScreen.dart';
+import 'package:bonga/views/RegistrationScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +12,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => AuthScreen()
+        '/': (BuildContext context) => AuthScreen(),
+        '/registration': (BuildContext context) => RegistrationScreen()
       },
     );
   }
