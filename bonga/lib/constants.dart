@@ -19,7 +19,7 @@ FontWeight kFontWeightSemiBold = FontWeight.w600;
 FontWeight kFontWeightBold = FontWeight.w700;
 
 // Auth Validation Regex
-RegExp KEmailRegExPattern = RegExp(
+RegExp kEmailRegExPattern = RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
 RegExp kPasswordRegExPattern =

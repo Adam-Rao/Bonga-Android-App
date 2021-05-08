@@ -1,7 +1,10 @@
 import 'package:bonga/constants.dart';
 import 'package:flutter/material.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
+
+  // TODO: Code Horizontal Layout for this screen
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -9,9 +12,8 @@ class RegistrationScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.8,
           child: SingleChildScrollView(
-            child: RegistrationScreenForm(),
+            child: LoginScreenForm(),
           ),
         ),
       ),
@@ -19,23 +21,22 @@ class RegistrationScreen extends StatelessWidget {
   }
 }
 
-class RegistrationScreenForm extends StatefulWidget {
+class LoginScreenForm extends StatefulWidget {
   @override
-  _RegistrationScreenFormState createState() => _RegistrationScreenFormState();
+  _LoginScreenFormState createState() => _LoginScreenFormState();
 }
 
-class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
-  final _registrationFormKey = GlobalKey<FormState>();
+class _LoginScreenFormState extends State<LoginScreenForm> {
+  final _loginFormKey = GlobalKey<FormState>();
   final _emailTextFieldController = TextEditingController();
   final _passwordTextFieldController = TextEditingController();
-  final _confirmPasswordTextFieldController = TextEditingController();
-  bool _firstPasswordVisibilityValue = true;
-  bool _secondPasswordVisibilityValue = true;
+
+  bool _passwordVisibilityValue = true;
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _registrationFormKey,
+      key: _loginFormKey,
       child: Column(
         children: [
           SizedBox(
@@ -52,7 +53,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
                   color: kDefaultPrimaryColour,
                 ),
               ),
-              hintText: 'Enter your email address',
+              hintText: 'Email address',
               hintStyle: TextStyle(
                   fontFamily: kFontFamily,
                   fontSize: kHintTextSize,
@@ -88,7 +89,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
                   color: kDefaultPrimaryColour,
                 ),
               ),
-              hintText: 'Password must be 8 characters long.',
+              hintText: 'Password',
               hintStyle: TextStyle(
                 fontFamily: kFontFamily,
                 fontSize: kHintTextSize,
@@ -98,12 +99,11 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
                   icon: Icon(Icons.visibility_rounded),
                   onPressed: () {
                     setState(() {
-                      _firstPasswordVisibilityValue =
-                          !_firstPasswordVisibilityValue;
+                      _passwordVisibilityValue = !_passwordVisibilityValue;
                     });
                   }),
             ),
-            obscureText: _firstPasswordVisibilityValue,
+            obscureText: _passwordVisibilityValue,
             style: TextStyle(
               color: kPrimaryTextColour,
               fontFamily: kFontFamily,
@@ -122,55 +122,10 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          TextFormField(
-            controller: _confirmPasswordTextFieldController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              fillColor: kTextPrimaryColour,
-              filled: true,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: kDefaultPrimaryColour,
-                ),
-              ),
-              hintText: 'Re-enter your password',
-              hintStyle: TextStyle(
-                fontFamily: kFontFamily,
-                fontSize: kHintTextSize,
-                fontWeight: kFontWeightSemiBold,
-              ),
-              suffixIcon: IconButton(
-                  icon: Icon(Icons.visibility_rounded),
-                  onPressed: () {
-                    setState(() {
-                      _secondPasswordVisibilityValue =
-                          !_secondPasswordVisibilityValue;
-                    });
-                  }),
-            ),
-            obscureText: _secondPasswordVisibilityValue,
-            style: TextStyle(
-              color: kPrimaryTextColour,
-              fontFamily: kFontFamily,
-              fontSize: 16.0,
-              fontWeight: kFontWeightRegular,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a password';
-              } else if (!kPasswordRegExPattern.hasMatch(value)) {
-                return 'Password must be at least 8 characters long and must have at least one: digit, upper case letter, lower case letter';
-              }
-              return null;
-            },
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
           ElevatedButton(
             onPressed: null,
             child: Text(
-              'REGISTER',
+              'LOGIN',
               style: TextStyle(
                 color: kTextPrimaryColour,
                 fontFamily: kFontFamily,
