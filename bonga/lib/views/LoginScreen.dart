@@ -2,7 +2,6 @@ import 'package:bonga/constants.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
-
   // TODO: Code Horizontal Layout for this screen
 
   @override
@@ -11,7 +10,7 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: kDefaultPrimaryColour,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Container(
+        child: Center(
           child: SingleChildScrollView(
             child: LoginScreenForm(),
           ),
@@ -39,9 +38,6 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
       key: _loginFormKey,
       child: Column(
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-          ),
           TextFormField(
             controller: _emailTextFieldController,
             decoration: InputDecoration(
@@ -123,7 +119,9 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
             height: MediaQuery.of(context).size.height * 0.05,
           ),
           ElevatedButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/home');
+            },
             child: Text(
               'LOGIN',
               style: TextStyle(

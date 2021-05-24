@@ -1,4 +1,5 @@
 import 'package:bonga/views/AuthScreen.dart';
+import 'package:bonga/views/HomeScreen.dart';
 import 'package:bonga/views/LoginScreen.dart';
 import 'package:bonga/views/RegistrationScreen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
         '/': (BuildContext context) => AuthScreen(),
         '/registration': (BuildContext context) => RegistrationScreen(),
         '/login': (BuildContext context) => LoginScreen(),
+        '/home': (BuildContext context) => HomeScreen(),
       },
     );
   }

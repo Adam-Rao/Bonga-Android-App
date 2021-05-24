@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/painting.dart';
 
 // Colours
@@ -24,3 +25,12 @@ RegExp kEmailRegExPattern = RegExp(
 
 RegExp kPasswordRegExPattern =
     RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+
+// Device size
+Function kGetDeviceHeight = (BuildContext context) {
+  return MediaQuery.of(context).size.height;
+};
+
+Function kGetDeviceWidth = (BuildContext context) {
+  return MediaQuery.of(context).size.width;
+};
