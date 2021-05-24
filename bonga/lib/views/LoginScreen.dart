@@ -120,7 +120,9 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.popAndPushNamed(context, '/home');
+              Navigator.pop(context, true);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/home', (route) => false);
             },
             child: Text(
               'LOGIN',

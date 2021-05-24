@@ -1,7 +1,7 @@
 import 'package:bonga/constants.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +10,9 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: kDarkPrimaryColour,
         centerTitle: true,
         leading: IconButton(
-          onPressed: null,
+          onPressed: () {
+            Navigator.pushNamed(context, '/home');
+          },
           icon: Icon(
             Icons.arrow_back,
             color: Colors.white,

@@ -34,3 +34,6 @@ Function kGetDeviceHeight = (BuildContext context) {
 Function kGetDeviceWidth = (BuildContext context) {
   return MediaQuery.of(context).size.width;
 };
+
+// Popup menu value
+enum kPopUpMenuValues { Profile, Settings, Logout }
