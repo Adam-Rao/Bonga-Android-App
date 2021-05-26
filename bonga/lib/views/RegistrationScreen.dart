@@ -1,6 +1,9 @@
 import 'package:bonga/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'components/FormField.dart';
+import 'components/MajorButton.dart';
+
 class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -9,7 +12,7 @@ class RegistrationScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.8,
+          height: kSizeSetter(context, 'Height', 0.8),
           child: SingleChildScrollView(
             child: RegistrationScreenForm(),
           ),
@@ -32,6 +35,18 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
   bool _firstPasswordVisibilityValue = true;
   bool _secondPasswordVisibilityValue = true;
 
+  void _firstPasswordVisibile() {
+    setState(() {
+      _firstPasswordVisibilityValue = !_firstPasswordVisibilityValue;
+    });
+  }
+
+  void _secondPasswordVisibile() {
+    setState(() {
+      _secondPasswordVisibilityValue = !_secondPasswordVisibilityValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -39,152 +54,53 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
       child: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: kSizeSetter(context, 'Height', 0.1),
           ),
-          TextFormField(
-            controller: _emailTextFieldController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              fillColor: kTextPrimaryColour,
-              filled: true,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: kDefaultPrimaryColour,
-                ),
-              ),
-              hintText: 'Enter your email address',
-              hintStyle: TextStyle(
-                  fontFamily: kFontFamily,
-                  fontSize: kHintTextSize,
-                  fontWeight: kFontWeightSemiBold),
-            ),
+          AuthFormField(
+            textFieldController: _emailTextFieldController,
+            hintText: 'Enter your email address',
+            emptyFieldValidatorError: kEmptyEmailValidatorError,
+            invalidFieldValidatorError: kInvalidEmailValidatorError,
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-              color: kPrimaryTextColour,
-              fontFamily: kFontFamily,
-              fontSize: 16.0,
-              fontWeight: kFontWeightRegular,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter an email address';
-              } else if (!kEmailRegExPattern.hasMatch(value)) {
-                return 'Please enter a valid email address';
-              }
-              return null;
-            },
+            isPasswordField: false,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: kSizeSetter(context, 'Height', 0.05),
           ),
-          TextFormField(
-            controller: _passwordTextFieldController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              fillColor: kTextPrimaryColour,
-              filled: true,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: kDefaultPrimaryColour,
-                ),
-              ),
-              hintText: 'Password must be 8 characters long.',
-              hintStyle: TextStyle(
-                fontFamily: kFontFamily,
-                fontSize: kHintTextSize,
-                fontWeight: kFontWeightSemiBold,
-              ),
-              suffixIcon: IconButton(
-                  icon: Icon(Icons.visibility_rounded),
-                  onPressed: () {
-                    setState(() {
-                      _firstPasswordVisibilityValue =
-                          !_firstPasswordVisibilityValue;
-                    });
-                  }),
-            ),
-            obscureText: _firstPasswordVisibilityValue,
-            style: TextStyle(
-              color: kPrimaryTextColour,
-              fontFamily: kFontFamily,
-              fontSize: 16.0,
-              fontWeight: kFontWeightRegular,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a password';
-              } else if (!kPasswordRegExPattern.hasMatch(value)) {
-                return 'Password must have at least one: digit, upper case letter, lower case letter';
-              }
-              return null;
-            },
+          AuthFormField(
+            textFieldController: _passwordTextFieldController,
+            hintText: 'Password',
+            emptyFieldValidatorError: kEmptyPasswordValidatorError,
+            invalidFieldValidatorError: kInvalidPasswordValidatorError,
+            keyboardType: TextInputType.visiblePassword,
+            isPasswordField: true,
+            passwordFieldFunction: _firstPasswordVisibile,
+            maskText: _firstPasswordVisibilityValue,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: kSizeSetter(context, 'Height', 0.05),
           ),
-          TextFormField(
-            controller: _confirmPasswordTextFieldController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              fillColor: kTextPrimaryColour,
-              filled: true,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: kDefaultPrimaryColour,
-                ),
-              ),
-              hintText: 'Re-enter your password',
-              hintStyle: TextStyle(
-                fontFamily: kFontFamily,
-                fontSize: kHintTextSize,
-                fontWeight: kFontWeightSemiBold,
-              ),
-              suffixIcon: IconButton(
-                  icon: Icon(Icons.visibility_rounded),
-                  onPressed: () {
-                    setState(() {
-                      _secondPasswordVisibilityValue =
-                          !_secondPasswordVisibilityValue;
-                    });
-                  }),
-            ),
-            obscureText: _secondPasswordVisibilityValue,
-            style: TextStyle(
-              color: kPrimaryTextColour,
-              fontFamily: kFontFamily,
-              fontSize: 16.0,
-              fontWeight: kFontWeightRegular,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a password';
-              } else if (!kPasswordRegExPattern.hasMatch(value)) {
-                return 'Password must be at least 8 characters long and must have at least one: digit, upper case letter, lower case letter';
-              }
-              return null;
-            },
+          AuthFormField(
+            textFieldController: _confirmPasswordTextFieldController,
+            hintText: 'Re-enter your password',
+            emptyFieldValidatorError: kEmptyPasswordValidatorError,
+            invalidFieldValidatorError: kInvalidPasswordValidatorError,
+            keyboardType: TextInputType.visiblePassword,
+            isPasswordField: true,
+            passwordFieldFunction: _secondPasswordVisibile,
+            maskText: _secondPasswordVisibilityValue,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: kSizeSetter(context, 'Height', 0.05),
           ),
-          ElevatedButton(
-            onPressed: null,
-            child: Text(
-              'REGISTER',
-              style: TextStyle(
-                color: kTextPrimaryColour,
-                fontFamily: kFontFamily,
-                fontSize: 18.0,
-                fontWeight: kFontWeightSemiBold,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              primary: kDarkPrimaryColour,
-              minimumSize: Size(
-                MediaQuery.of(context).size.width * 0.85,
-                MediaQuery.of(context).size.height * 0.08,
-              ),
-            ),
+          MajorButton(
+            onPress: null,
+            buttonColour: kDarkPrimaryColour,
+            buttonTextColour: kTextPrimaryColour,
+            buttonText: 'REGISTRATION',
+            buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+            buttonHeight:
+                kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
           ),
         ],
       ),

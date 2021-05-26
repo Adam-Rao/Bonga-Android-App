@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 // Colours
@@ -37,3 +37,32 @@ Function kGetDeviceWidth = (BuildContext context) {
 
 // Popup menu value
 enum kPopUpMenuValues { Profile, Settings, Logout }
+
+// Navigator functions
+
+Function kNormalPush = (BuildContext context, String routeName) {
+  Navigator.pushNamed(context, routeName);
+};
+
+double kAuthButtonHeightRatio = 0.08;
+double kAuthButtonWidthRatio = 0.85;
+
+Function kSizeSetter = (BuildContext context, String sizeType, double ratio) {
+  switch (sizeType) {
+    case 'Height':
+      return kGetDeviceHeight(context) * ratio;
+      break;
+    case 'Width':
+      return kGetDeviceWidth(context) * ratio;
+      break;
+    default:
+      break;
+  }
+};
+
+//Validators
+String kEmptyEmailValidatorError = 'Please enter an email address';
+String kInvalidEmailValidatorError = 'Please enter a valid email address';
+
+String kEmptyPasswordValidatorError = 'Please enter a password';
+String kInvalidPasswordValidatorError = 'Password must have at least one: digit, upper case letter, lower case letter';

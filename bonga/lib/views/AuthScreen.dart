@@ -1,9 +1,33 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/views/components/MajorButton.dart';
+import 'package:bonga/views/components/Text.dart';
 import 'package:flutter/material.dart';
 
-class AuthScreen extends StatelessWidget {
+import 'components/ItemRow.dart';
 
+class AuthScreen extends StatelessWidget {
   // TODO: Code Horizontal Layout for this screen
+
+  final List<Widget> _appBanner = [
+    AppText(
+      'Bong',
+      kFontWeightSemiBold,
+      24.0,
+      kTextPrimaryColour,
+    ),
+    Container(
+      height: 23.0,
+      width: 24.0,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/images/app_icon.png',
+          ),
+          fit: BoxFit.contain,
+        ),
+      ),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -13,101 +37,59 @@ class AuthScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: kSizeSetter(context, 'Height', 0.3),
             child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Bong',
-                    style: TextStyle(
-                      color: kTextPrimaryColour,
-                      fontSize: 24.0,
-                      fontFamily: kFontFamily,
-                      fontWeight: kFontWeightSemiBold,
-                    ),
-                  ),
-                  Container(
-                    height: 23.0,
-                    width: 24.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/app_icon.png',
-                        ),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ],
+              child: ItemRow(
+                _appBanner,
+                MainAxisAlignment.center,
               ),
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: kSizeSetter(context, 'Height', 0.1),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.35,
+            height: kSizeSetter(context, 'Height', 0.35),
             child: Column(
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/registration');
+                MajorButton(
+                  onPress: () {
+                    kNormalPush(context, '/registration');
                   },
-                  child: Text(
-                    'REGISTER',
-                    style: TextStyle(
-                      color: kTextPrimaryColour,
-                      fontFamily: kFontFamily,
-                      fontSize: 18.0,
-                      fontWeight: kFontWeightSemiBold,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: kDarkPrimaryColour,
-                    minimumSize: Size(
-                      MediaQuery.of(context).size.width * 0.85,
-                      MediaQuery.of(context).size.height * 0.08,
-                    ),
-                  ),
+                  buttonColour: kDarkPrimaryColour,
+                  buttonTextColour: kTextPrimaryColour,
+                  buttonText: 'REGISTRATION',
+                  buttonWidth:
+                      kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+                  buttonHeight:
+                      kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: kSizeSetter(context, 'Height', 0.05),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                MajorButton(
+                  onPress: () {
+                    kNormalPush(context, '/login');
                   },
-                  child: Text(
-                    'LOGIN',
-                    style: TextStyle(
-                      color: kPrimaryTextColour,
-                      fontFamily: kFontFamily,
-                      fontSize: 18.0,
-                      fontWeight: kFontWeightSemiBold,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: kLightPrimaryColour,
-                    minimumSize: Size(
-                      MediaQuery.of(context).size.width * 0.85,
-                      MediaQuery.of(context).size.height * 0.08,
-                    ),
-                  ),
+                  buttonColour: kLightPrimaryColour,
+                  buttonTextColour: kPrimaryTextColour,
+                  buttonText: 'LOGIN',
+                  buttonWidth:
+                      kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+                  buttonHeight:
+                      kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: kSizeSetter(context, 'Height', 0.05),
                 ),
                 Expanded(
                   child: TextButton(
                     onPressed: null,
-                    child: Text(
+                    child: AppText(
                       'Forgot your password?',
-                      style: TextStyle(
-                          color: kTextPrimaryColour,
-                          fontFamily: kFontFamily,
-                          fontWeight: kFontWeightSemiBold,
-                          fontSize: 14.0),
+                      kFontWeightSemiBold,
+                      14.0,
+                      kTextPrimaryColour,
                     ),
                   ),
                 ),

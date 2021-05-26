@@ -1,7 +1,114 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/views/components/Text.dart';
 import 'package:flutter/material.dart';
 
+import 'components/ItemRow.dart';
+import 'components/MajorButton.dart';
+import 'components/ProfileAvatar.dart';
+
 class ProfileScreen extends StatelessWidget {
+  final List<Widget> _usernameRowItems = [
+    Icon(
+      Icons.person,
+      color: Colors.white,
+      size: 50.0,
+    ),
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppText(
+          'Username',
+          kFontWeightSemiBold,
+          13.0,
+          kTextPrimaryColour,
+        ),
+        SizedBox(height: 2.0),
+        AppText(
+          'Placeholder Username',
+          kFontWeightSemiBold,
+          11.0,
+          kTextPrimaryColour,
+        ),
+      ],
+    ),
+    IconButton(
+      onPressed: null,
+      icon: Icon(
+        Icons.edit,
+        color: Colors.white,
+        size: 30.0,
+      ),
+    ),
+  ];
+
+  final List<Widget> _aboutRowItems = [
+    Icon(
+      Icons.info,
+      color: Colors.white,
+      size: 50.0,
+    ),
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppText(
+          'About',
+          kFontWeightSemiBold,
+          13.0,
+          kTextPrimaryColour,
+        ),
+        SizedBox(height: 2.0),
+        AppText(
+          'Something pretentious',
+          kFontWeightSemiBold,
+          11.0,
+          kTextPrimaryColour,
+        ),
+      ],
+    ),
+    IconButton(
+      onPressed: null,
+      icon: Icon(
+        Icons.edit,
+        color: Colors.white,
+        size: 30.0,
+      ),
+    ),
+  ];
+
+  final List<Widget> _emailAddressRowItems = [
+    Icon(
+      Icons.email,
+      color: Colors.white,
+      size: 50.0,
+    ),
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppText(
+          'Email Address',
+          kFontWeightSemiBold,
+          13.0,
+          kTextPrimaryColour,
+        ),
+        SizedBox(height: 2.0),
+        AppText(
+          'someemail@example.com',
+          kFontWeightSemiBold,
+          11.0,
+          kTextPrimaryColour,
+        ),
+      ],
+    ),
+    IconButton(
+      onPressed: null,
+      icon: Icon(
+        Icons.edit,
+        color: Colors.white,
+        size: 30.0,
+      ),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,98 +125,42 @@ class ProfileScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        title: Text(
+        title: AppText(
           'Profile',
-          style: TextStyle(
-              fontFamily: kFontFamily,
-              fontWeight: kFontWeightSemiBold,
-              fontSize: 16.0),
+          kFontWeightSemiBold,
+          16.0,
+          kTextPrimaryColour,
         ),
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(30.0),
-            child: CircleAvatar(
-              backgroundColor: kDarkPrimaryColour,
-              child: Icon(
-                Icons.person,
-                color: kLightPrimaryColour,
-                size: 50.0,
-              ),
-              radius: kGetDeviceWidth(context) * 0.15,
+            child: AvatarContainer(
+              kSizeSetter(context, 'Width', 0.15),
+              false,
+              null,
             ),
           ),
-          ElevatedButton(
-            onPressed: null,
-            child: Text(
-              'SET PROFILE AVATAR',
-              style: TextStyle(
-                color: kTextPrimaryColour,
-                fontFamily: kFontFamily,
-                fontSize: 18.0,
-                fontWeight: kFontWeightSemiBold,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              primary: kDarkPrimaryColour,
-              minimumSize: Size(
-                MediaQuery.of(context).size.width * 0.60,
-                MediaQuery.of(context).size.height * 0.06,
-              ),
-            ),
+          MajorButton(
+            onPress: null,
+            buttonColour: kDarkPrimaryColour,
+            buttonTextColour: kTextPrimaryColour,
+            buttonText: 'SET PROFILE AVATAR',
+            buttonWidth: kSizeSetter(context, 'Width', 0.60),
+            buttonHeight: kSizeSetter(context, 'Height', 0.06),
           ),
           Divider(
             thickness: 2.0,
             color: kPrimaryDividerColour,
-            indent: kGetDeviceWidth(context) * 0.1,
-            endIndent: kGetDeviceWidth(context) * 0.1,
+            indent: kSizeSetter(context, 'Width', 0.1),
+            endIndent: kSizeSetter(context, 'Width', 0.1),
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(
-                  Icons.person,
-                  color: Colors.white,
-                  size: 50.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Username',
-                      style: TextStyle(
-                        color: kTextPrimaryColour,
-                        fontFamily: kFontFamily,
-                        fontWeight: kFontWeightSemiBold,
-                        fontSize: 13.0,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 2.0,
-                    ),
-                    Text(
-                      'Placeholder Username',
-                      style: TextStyle(
-                        color: kTextPrimaryColour,
-                        fontFamily: kFontFamily,
-                        fontWeight: kFontWeightSemiBold,
-                        fontSize: 11.0,
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                    size: 30.0,
-                  ),
-                ),
-              ],
+            child: ItemRow(
+              _usernameRowItems,
+              MainAxisAlignment.spaceEvenly,
             ),
           ),
           SizedBox(
@@ -117,49 +168,9 @@ class ProfileScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(
-                  Icons.info,
-                  color: Colors.white,
-                  size: 50.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'About',
-                      style: TextStyle(
-                        color: kTextPrimaryColour,
-                        fontFamily: kFontFamily,
-                        fontWeight: kFontWeightSemiBold,
-                        fontSize: 13.0,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 2.0,
-                    ),
-                    Text(
-                      'Something pretentious',
-                      style: TextStyle(
-                        color: kTextPrimaryColour,
-                        fontFamily: kFontFamily,
-                        fontWeight: kFontWeightSemiBold,
-                        fontSize: 11.0,
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                    size: 30.0,
-                  ),
-                ),
-              ],
+            child: ItemRow(
+              _aboutRowItems,
+              MainAxisAlignment.spaceEvenly,
             ),
           ),
           SizedBox(
@@ -167,49 +178,9 @@ class ProfileScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(
-                  Icons.email,
-                  color: Colors.white,
-                  size: 50.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Email Address',
-                      style: TextStyle(
-                        color: kTextPrimaryColour,
-                        fontFamily: kFontFamily,
-                        fontWeight: kFontWeightSemiBold,
-                        fontSize: 13.0,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 2.0,
-                    ),
-                    Text(
-                      'someemail@example.com',
-                      style: TextStyle(
-                        color: kTextPrimaryColour,
-                        fontFamily: kFontFamily,
-                        fontWeight: kFontWeightSemiBold,
-                        fontSize: 11.0,
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                    size: 30.0,
-                  ),
-                ),
-              ],
+            child: ItemRow(
+              _emailAddressRowItems,
+              MainAxisAlignment.spaceEvenly,
             ),
           ),
           SizedBox(
