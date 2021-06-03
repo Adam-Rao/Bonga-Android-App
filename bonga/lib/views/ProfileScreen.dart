@@ -1,4 +1,6 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/views/components/AppBar.dart';
+import 'package:bonga/views/components/PopUpMenu.dart';
 import 'package:bonga/views/components/Text.dart';
 import 'package:flutter/material.dart';
 
@@ -113,9 +115,10 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kDefaultPrimaryColour,
-      appBar: AppBar(
-        backgroundColor: kDarkPrimaryColour,
-        centerTitle: true,
+      appBar: UniversalAppBar(
+        actions: [
+          PopUpMenu('ProfileScreen'),
+        ],
         leading: IconButton(
           onPressed: () {
             Navigator.pushNamed(context, '/home');
