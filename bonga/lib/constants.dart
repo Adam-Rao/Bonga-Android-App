@@ -51,10 +51,8 @@ Function kSizeSetter = (BuildContext context, String sizeType, double ratio) {
   switch (sizeType) {
     case 'Height':
       return kGetDeviceHeight(context) * ratio;
-      break;
     case 'Width':
       return kGetDeviceWidth(context) * ratio;
-      break;
     default:
       break;
   }

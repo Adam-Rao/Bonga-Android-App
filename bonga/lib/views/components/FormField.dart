@@ -4,15 +4,15 @@ import '../../constants.dart';
 
 class AuthFormField extends StatelessWidget {
   const AuthFormField(
-      {Key key,
-      @required TextEditingController textFieldController,
-      @required String hintText,
-      @required String emptyFieldValidatorError,
-      @required String invalidFieldValidatorError,
-      @required TextInputType keyboardType,
-      @required bool isPasswordField,
-      Function passwordFieldFunction,
-      bool maskText})
+      {Key? key,
+      @required TextEditingController? textFieldController,
+      @required String? hintText,
+      @required String? emptyFieldValidatorError,
+      @required String? invalidFieldValidatorError,
+      @required TextInputType? keyboardType,
+      @required bool? isPasswordField,
+      Function? passwordFieldFunction,
+      bool? maskText})
       : _textFieldController = textFieldController,
         _hintText = hintText,
         _emptyFieldValidatorError = emptyFieldValidatorError,
@@ -23,14 +23,14 @@ class AuthFormField extends StatelessWidget {
         _maskText = maskText,
         super(key: key);
 
-  final TextEditingController _textFieldController;
-  final String _hintText;
-  final String _emptyFieldValidatorError;
-  final String _invalidFieldValidatorError;
-  final TextInputType _keyboardType;
-  final bool _isPasswordField;
-  final Function _passwordFieldFunction;
-  final bool _maskText;
+  final TextEditingController? _textFieldController;
+  final String? _hintText;
+  final String? _emptyFieldValidatorError;
+  final String? _invalidFieldValidatorError;
+  final TextInputType? _keyboardType;
+  final bool? _isPasswordField;
+  final Function? _passwordFieldFunction;
+  final bool? _maskText;
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +54,14 @@ class AuthFormField extends StatelessWidget {
         suffixIcon: _isPasswordField == true
             ? IconButton(
                 icon: Icon(Icons.visibility_rounded),
-                onPressed: _passwordFieldFunction,
+                onPressed: () {
+                  _passwordFieldFunction;
+                },
               )
             : null,
       ),
       keyboardType: _keyboardType,
-      obscureText: _isPasswordField == true ? _maskText : false,
+      obscureText: _isPasswordField == true ? _maskText! : false,
       style: TextStyle(
         color: kPrimaryTextColour,
         fontFamily: kFontFamily,

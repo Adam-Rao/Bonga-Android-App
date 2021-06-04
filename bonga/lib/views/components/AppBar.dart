@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class UniversalAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final List<Widget> _actions;
-  final Widget _title;
-  final Widget _leading;
+  final List<Widget>? _actions;
+  final Widget? _title;
+  final Widget? _leading;
 
   const UniversalAppBar({
-    @required List<Widget> actions,
-    @required Widget title,
-    Widget leading,
+    @required List<Widget>? actions,
+    @required Widget? title,
+    Widget? leading,
   })  : _actions = actions,
         _title = title,
         _leading = leading;
