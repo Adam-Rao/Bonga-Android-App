@@ -20,6 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _clearSearchBar() {
+    _searchController.clear();
+    _searchStateController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,36 +43,33 @@ class _HomeScreenState extends State<HomeScreen> {
           PopUpMenu('HomeScreen'),
         ],
         title: _searching == false
-          ? AppText(
-              'Inbox',
-              kFontWeightSemiBold,
-              16.0,
-              kTextPrimaryColour,
-            )
-      : TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            hintText: 'Search',
-            hintStyle: TextStyle(
-              fontFamily: kFontFamily,
-              fontSize: kHintTextSize,
-              fontWeight: kFontWeightSemiBold,
-            ),
-            suffixIcon: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                _searchController.clear();
-                _searchStateController;
-              },
-            ),
-          ),
-          style: TextStyle(
-            color: kTextPrimaryColour,
-            fontFamily: kFontFamily,
-            fontSize: 16.0,
-            fontWeight: kFontWeightRegular,
-          ),
-        ),
+            ? AppText(
+                'Inbox',
+                kFontWeightSemiBold,
+                16.0,
+                kTextPrimaryColour,
+              )
+            : TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  hintStyle: TextStyle(
+                    fontFamily: kFontFamily,
+                    fontSize: kHintTextSize,
+                    fontWeight: kFontWeightSemiBold,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: _clearSearchBar,
+                  ),
+                ),
+                style: TextStyle(
+                  color: kTextPrimaryColour,
+                  fontFamily: kFontFamily,
+                  fontSize: 16.0,
+                  fontWeight: kFontWeightRegular,
+                ),
+              ),
       ),
       body: _searching == false ? Inbox() : Search(),
     );

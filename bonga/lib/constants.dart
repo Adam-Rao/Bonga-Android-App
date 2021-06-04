@@ -1,3 +1,5 @@
+import 'package:bonga/views/components/ItemRow.dart';
+import 'package:bonga/views/components/Text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -63,4 +65,84 @@ String kEmptyEmailValidatorError = 'Please enter an email address';
 String kInvalidEmailValidatorError = 'Please enter a valid email address';
 
 String kEmptyPasswordValidatorError = 'Please enter a password';
-String kInvalidPasswordValidatorError = 'Password must have at least one: digit, upper case letter, lower case letter';
+String kInvalidPasswordValidatorError =
+    'Password must have at least one: digit, upper case letter, lower case letter';
+
+List<ItemRow> kAccountSettingsList = [
+  ItemRow(
+    [
+      Icon(
+        Icons.lock,
+        color: Colors.white,
+        size: 30.0,
+      ),
+      SizedBox(
+        width: 20.0,
+      ),
+      AppText(
+        'Change Password',
+        kFontWeightSemiBold,
+        14.0,
+        kTextPrimaryColour,
+      ),
+    ],
+    MainAxisAlignment.start,
+  ),
+  ItemRow(
+    [
+      Icon(
+        Icons.delete,
+        color: Colors.white,
+        size: 30.0,
+      ),
+      SizedBox(
+        width: 20.0,
+      ),
+      AppText(
+        'Delete Your Account',
+        kFontWeightSemiBold,
+        14.0,
+        kTextPrimaryColour,
+      ),
+    ],
+    MainAxisAlignment.start,
+  ),
+  ItemRow(
+    [
+      Icon(
+        Icons.info,
+        color: Colors.white,
+        size: 30.0,
+      ),
+      SizedBox(
+        width: 20.0,
+      ),
+      AppText(
+        'General Info & Privacy Policy',
+        kFontWeightSemiBold,
+        14.0,
+        kTextPrimaryColour,
+      ),
+    ],
+    MainAxisAlignment.start,
+  ),
+  ItemRow(
+    [
+      Icon(
+        Icons.shield,
+        color: Colors.white,
+        size: 30.0,
+      ),
+      SizedBox(
+        width: 20.0,
+      ),
+      AppText(
+        'Privacy Settings',
+        kFontWeightSemiBold,
+        14.0,
+        kTextPrimaryColour,
+      ),
+    ],
+    MainAxisAlignment.start,
+  ),
+];

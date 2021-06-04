@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class MajorButton extends StatelessWidget {
-  final Function? _onPress;
+  final Function()? _onPress;
   final Color? _buttonColour;
   final Color? _buttonTextColour;
   final String? _buttonText;
@@ -13,7 +13,7 @@ class MajorButton extends StatelessWidget {
 
   const MajorButton(
       {Key? key,
-      @required Function? onPress,
+      @required Function()? onPress,
       @required Color? buttonColour,
       @required Color? buttonTextColour,
       @required String? buttonText,
@@ -30,9 +30,7 @@ class MajorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        _onPress;
-      },
+      onPressed: _onPress,
       child: AppText(
         _buttonText!,
         kFontWeightSemiBold,

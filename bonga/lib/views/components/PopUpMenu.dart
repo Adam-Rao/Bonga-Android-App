@@ -14,7 +14,7 @@ class PopUpMenu extends StatelessWidget {
         if (value == kPopUpMenuValues.Profile && _currentScreen != 'ProfileScreen') {
           Navigator.pushNamed(context, '/profile');
         } else if (value == kPopUpMenuValues.Settings && _currentScreen != 'SettingsScreen') {
-          null;
+          Navigator.pushNamed(context, '/settings');
         } else if (value == kPopUpMenuValues.Logout) {
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         }

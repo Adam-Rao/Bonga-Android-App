@@ -3,6 +3,7 @@ import 'package:bonga/views/HomeScreen.dart';
 import 'package:bonga/views/ProfileScreen.dart';
 import 'package:bonga/views/LoginScreen.dart';
 import 'package:bonga/views/RegistrationScreen.dart';
+import 'package:bonga/views/SettingsScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/login': (BuildContext context) => LoginScreen(),
         '/home': (BuildContext context) => HomeScreen(),
         '/profile': (BuildContext context) => ProfileScreen(),
+        '/settings': (BuildContext context) => SettingsScreen(),
       },
     );
   }
