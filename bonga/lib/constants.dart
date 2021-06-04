@@ -146,3 +146,23 @@ List<ItemRow> kAccountSettingsList = [
     MainAxisAlignment.start,
   ),
 ];
+
+Function kShowBottomSheet =
+    (BuildContext context, double height, Widget content) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return SingleChildScrollView(
+        child: Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Container(
+            height: height,
+            color: kDarkPrimaryColour,
+            child: content,
+          ),
+        ),
+      );
+    },
+    isScrollControlled: true,
+  );
+};

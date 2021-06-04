@@ -4,6 +4,7 @@ import '../constants.dart';
 import 'components/AppBar.dart';
 import 'components/Text.dart';
 import 'components/PopUpMenu.dart';
+import 'components/TextField.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -49,25 +50,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 16.0,
                 kTextPrimaryColour,
               )
-            : TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: TextStyle(
-                    fontFamily: kFontFamily,
-                    fontSize: kHintTextSize,
-                    fontWeight: kFontWeightSemiBold,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: _clearSearchBar,
-                  ),
-                ),
-                style: TextStyle(
-                  color: kTextPrimaryColour,
-                  fontFamily: kFontFamily,
-                  fontSize: 16.0,
-                  fontWeight: kFontWeightRegular,
+            : CommonTextField(
+                fieldController: _searchController,
+                hintText: 'Search',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: _clearSearchBar,
+                  color: Colors.grey,
                 ),
               ),
       ),

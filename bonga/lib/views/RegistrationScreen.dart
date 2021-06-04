@@ -48,6 +48,14 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
   }
 
   @override
+  void dispose() {
+    _emailTextFieldController.dispose();
+    _passwordTextFieldController.dispose();
+    _confirmPasswordTextFieldController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _registrationFormKey,

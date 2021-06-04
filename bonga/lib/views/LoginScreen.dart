@@ -46,6 +46,13 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
   }
 
   @override
+  void dispose() {
+    _emailTextFieldController.dispose();
+    _passwordTextFieldController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _loginFormKey,

@@ -1,4 +1,5 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/views/components/EditDetail.dart';
 import 'package:bonga/views/components/MajorButton.dart';
 import 'package:bonga/views/components/Text.dart';
 import 'package:flutter/material.dart';
@@ -29,74 +30,86 @@ class AuthScreen extends StatelessWidget {
     ),
   ];
 
+  final TextEditingController _forgotPasswordController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kDefaultPrimaryColour,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: kSizeSetter(context, 'Height', 0.3),
-            child: Center(
-              child: ItemRow(
-                _appBanner,
-                MainAxisAlignment.center,
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Container(
+              height: kSizeSetter(context, 'Height', 0.2),
+              child: Center(
+                child: ItemRow(
+                  _appBanner,
+                  MainAxisAlignment.center,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: kSizeSetter(context, 'Height', 0.1),
-          ),
-          Container(
-            height: kSizeSetter(context, 'Height', 0.35),
-            child: Column(
-              children: [
-                MajorButton(
-                  onPress: () {
-                    kNormalPush(context, '/registration');
-                  },
-                  buttonColour: kDarkPrimaryColour,
-                  buttonTextColour: kTextPrimaryColour,
-                  buttonText: 'REGISTRATION',
-                  buttonWidth:
-                      kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
-                  buttonHeight:
-                      kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
-                ),
-                SizedBox(
-                  height: kSizeSetter(context, 'Height', 0.05),
-                ),
-                MajorButton(
-                  onPress: () {
-                    kNormalPush(context, '/login');
-                  },
-                  buttonColour: kLightPrimaryColour,
-                  buttonTextColour: kPrimaryTextColour,
-                  buttonText: 'LOGIN',
-                  buttonWidth:
-                      kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
-                  buttonHeight:
-                      kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
-                ),
-                SizedBox(
-                  height: kSizeSetter(context, 'Height', 0.05),
-                ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: null,
-                    child: AppText(
-                      'Forgot your password?',
-                      kFontWeightSemiBold,
-                      14.0,
-                      kTextPrimaryColour,
+            SizedBox(
+              height: kSizeSetter(context, 'Height', 0.1),
+            ),
+            Container(
+              height: kSizeSetter(context, 'Height', 0.35),
+              child: Column(
+                children: [
+                  MajorButton(
+                    onPress: () {
+                      kNormalPush(context, '/registration');
+                    },
+                    buttonColour: kDarkPrimaryColour,
+                    buttonTextColour: kTextPrimaryColour,
+                    buttonText: 'REGISTRATION',
+                    buttonWidth:
+                        kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+                    buttonHeight:
+                        kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
+                  ),
+                  SizedBox(
+                    height: kSizeSetter(context, 'Height', 0.05),
+                  ),
+                  MajorButton(
+                    onPress: () {
+                      kNormalPush(context, '/login');
+                    },
+                    buttonColour: kLightPrimaryColour,
+                    buttonTextColour: kPrimaryTextColour,
+                    buttonText: 'LOGIN',
+                    buttonWidth:
+                        kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+                    buttonHeight:
+                        kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
+                  ),
+                  SizedBox(
+                    height: kSizeSetter(context, 'Height', 0.05),
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => kShowBottomSheet(
+                        context,
+                        kSizeSetter(context, 'Height', 0.3),
+                        EditDetail(
+                          detailController: _forgotPasswordController,
+                          hintText: 'Enter your email address',
+                        ),
+                      ),
+                      child: AppText(
+                        'Forgot your password?',
+                        kFontWeightSemiBold,
+                        14.0,
+                        kTextPrimaryColour,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
