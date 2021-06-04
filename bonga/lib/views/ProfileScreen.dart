@@ -4,6 +4,7 @@ import 'package:bonga/views/components/PopUpMenu.dart';
 import 'package:bonga/views/components/Text.dart';
 import 'package:flutter/material.dart';
 
+import 'components/EditDetail.dart';
 import 'components/ItemRow.dart';
 import 'components/MajorButton.dart';
 import 'components/ProfileAvatar.dart';
@@ -111,6 +112,18 @@ class ProfileScreen extends StatelessWidget {
     ),
   ];
 
+  final TextEditingController _editEmailController = TextEditingController(
+    text: 'someemail@example.com',
+  );
+
+  final TextEditingController _editAboutController = TextEditingController(
+    text: 'Something pretentious',
+  );
+
+  final TextEditingController _editUsernameController = TextEditingController(
+    text: 'Placeholder Username',
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,62 +148,104 @@ class ProfileScreen extends StatelessWidget {
           kTextPrimaryColour,
         ),
       ),
-      body: Column(
+      body: ListView(
+        shrinkWrap: true,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: AvatarContainer(
-              kSizeSetter(context, 'Width', 0.15),
-              false,
-              '',
-            ),
+        Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: AvatarContainer(
+            kSizeSetter(context, 'Width', 0.15),
+            false,
+            '',
           ),
-          MajorButton(
+        ),
+        Container(
+          margin: EdgeInsets.only(
+            bottom: 10.0,
+            left: kSizeSetter(context, 'Width', 0.2),
+            right: kSizeSetter(context, 'Width', 0.2),
+          ),
+          child: MajorButton(
             onPress: null,
             buttonColour: kDarkPrimaryColour,
             buttonTextColour: kTextPrimaryColour,
             buttonText: 'SET PROFILE AVATAR',
-            buttonWidth: kSizeSetter(context, 'Width', 0.60),
+            buttonWidth: kSizeSetter(context, 'Width', 0.6),
             buttonHeight: kSizeSetter(context, 'Height', 0.06),
           ),
-          Divider(
-            thickness: 2.0,
-            color: kPrimaryDividerColour,
-            indent: kSizeSetter(context, 'Width', 0.1),
-            endIndent: kSizeSetter(context, 'Width', 0.1),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ItemRow(
-              _usernameRowItems,
-              MainAxisAlignment.spaceEvenly,
+        ),
+        Divider(
+          thickness: 2.0,
+          color: kPrimaryDividerColour,
+          indent: kSizeSetter(context, 'Width', 0.1),
+          endIndent: kSizeSetter(context, 'Width', 0.1),
+        ),
+        ListView(
+          shrinkWrap: true,
+          children: [
+            GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ItemRow(
+                  _usernameRowItems,
+                  MainAxisAlignment.spaceEvenly,
+                ),
+              ),
+              onTap: () => kShowBottomSheet(
+                context,
+                kSizeSetter(context, 'Height', 0.3),
+                EditDetail(
+                  detailController: _editUsernameController,
+                  hintText: '',
+                ),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ItemRow(
-              _aboutRowItems,
-              MainAxisAlignment.spaceEvenly,
+            SizedBox(
+              height: 10.0,
             ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ItemRow(
-              _emailAddressRowItems,
-              MainAxisAlignment.spaceEvenly,
+            GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ItemRow(
+                  _aboutRowItems,
+                  MainAxisAlignment.spaceEvenly,
+                ),
+              ),
+              onTap: () => kShowBottomSheet(
+                context,
+                kSizeSetter(context, 'Height', 0.3),
+                EditDetail(
+                  detailController: _editAboutController,
+                  hintText: '',
+                ),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-        ],
-      ),
+            SizedBox(
+              height: 10.0,
+            ),
+            GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ItemRow(
+                  _emailAddressRowItems,
+                  MainAxisAlignment.spaceEvenly,
+                ),
+              ),
+              onTap: () => kShowBottomSheet(
+                context,
+                kSizeSetter(context, 'Height', 0.3),
+                EditDetail(
+                  detailController: _editEmailController,
+                  hintText: '',
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+          ],
+        ),
+      ]),
     );
   }
 }

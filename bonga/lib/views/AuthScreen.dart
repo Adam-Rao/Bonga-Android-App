@@ -89,14 +89,16 @@ class AuthScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextButton(
-                      onPressed: () => kShowBottomSheet(
-                        context,
-                        kSizeSetter(context, 'Height', 0.3),
-                        EditDetail(
-                          detailController: _forgotPasswordController,
-                          hintText: 'Enter your email address',
-                        ),
-                      ),
+                      onPressed: () {
+                        kShowBottomSheet(
+                          context,
+                          kSizeSetter(context, 'Height', 0.3),
+                          EditDetail(
+                            detailController: _forgotPasswordController,
+                            hintText: 'Enter your email address',
+                          ),
+                        );
+                      },
                       child: AppText(
                         'Forgot your password?',
                         kFontWeightSemiBold,
