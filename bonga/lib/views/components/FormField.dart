@@ -71,9 +71,18 @@ class AuthFormField extends StatelessWidget {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return _emptyFieldValidatorError;
-        } else if (!kEmailRegExPattern.hasMatch(value)) {
-          return _invalidFieldValidatorError;
         }
+
+        if (_isPasswordField == true) {
+          if (!kPasswordRegExPattern.hasMatch(value)) {
+            return _invalidFieldValidatorError;
+          }
+        } else {
+          if (!kEmailRegExPattern.hasMatch(value)) {
+            return _invalidFieldValidatorError;
+          }
+        }
+
         return null;
       },
     );

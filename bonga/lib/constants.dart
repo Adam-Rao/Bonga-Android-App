@@ -1,7 +1,8 @@
-import 'package:bonga/views/components/ItemRow.dart';
-import 'package:bonga/views/components/Text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+
+import 'views/components/ItemRow.dart';
+import 'views/components/Text.dart';
 
 // Colours
 Color kDarkPrimaryColour = Color(0xFF455A64);
@@ -166,3 +167,6 @@ Function kShowBottomSheet =
     isScrollControlled: true,
   );
 };
+
+String kDeleteAccountInformation = 'This operation is irreversible.\nAll data associated with this account will be deleted.';
+
