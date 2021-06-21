@@ -22,38 +22,11 @@ class RegistrationScreen extends StatelessWidget {
   }
 }
 
-class RegistrationScreenForm extends StatefulWidget {
-  @override
-  _RegistrationScreenFormState createState() => _RegistrationScreenFormState();
-}
-
-class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
-  final _registrationFormKey = GlobalKey<FormState>();
+class RegistrationScreenForm extends StatelessWidget {
+  static final _registrationFormKey = GlobalKey<FormState>();
   final _emailTextFieldController = TextEditingController();
   final _passwordTextFieldController = TextEditingController();
   final _confirmPasswordTextFieldController = TextEditingController();
-  bool _firstPasswordVisibilityValue = true;
-  bool _secondPasswordVisibilityValue = true;
-
-  void _firstPasswordVisibile() {
-    setState(() {
-      _firstPasswordVisibilityValue = !_firstPasswordVisibilityValue;
-    });
-  }
-
-  void _secondPasswordVisibile() {
-    setState(() {
-      _secondPasswordVisibilityValue = !_secondPasswordVisibilityValue;
-    });
-  }
-
-  @override
-  void dispose() {
-    _emailTextFieldController.dispose();
-    _passwordTextFieldController.dispose();
-    _confirmPasswordTextFieldController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +55,6 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
             invalidFieldValidatorError: kInvalidPasswordValidatorError,
             keyboardType: TextInputType.visiblePassword,
             isPasswordField: true,
-            passwordFieldFunction: _firstPasswordVisibile,
-            maskText: _firstPasswordVisibilityValue,
           ),
           SizedBox(
             height: kSizeSetter(context, 'Height', 0.05),
@@ -95,8 +66,6 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
             invalidFieldValidatorError: kInvalidPasswordValidatorError,
             keyboardType: TextInputType.visiblePassword,
             isPasswordField: true,
-            passwordFieldFunction: _secondPasswordVisibile,
-            maskText: _secondPasswordVisibilityValue,
           ),
           SizedBox(
             height: kSizeSetter(context, 'Height', 0.05),
@@ -105,7 +74,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
             onPress: null,
             buttonColour: kDarkPrimaryColour,
             buttonTextColour: kTextPrimaryColour,
-            buttonText: 'REGISTRATION',
+            buttonText: 'REGISTER',
             buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
             buttonHeight:
                 kSizeSetter(context, 'Height', kAuthButtonHeightRatio),

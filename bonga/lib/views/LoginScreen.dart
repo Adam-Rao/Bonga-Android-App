@@ -23,33 +23,14 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class LoginScreenForm extends StatefulWidget {
-  @override
-  _LoginScreenFormState createState() => _LoginScreenFormState();
-}
-
-class _LoginScreenFormState extends State<LoginScreenForm> {
+class LoginScreenForm extends StatelessWidget {
   final _loginFormKey = GlobalKey<FormState>();
   final _emailTextFieldController = TextEditingController();
   final _passwordTextFieldController = TextEditingController();
-  bool _passwordVisibilityValue = true;
-
-  void _passwordVisible() {
-    setState(() {
-      _passwordVisibilityValue = !_passwordVisibilityValue;
-    });
-  }
 
   void _homeNavigator(BuildContext context) {
     Navigator.pop(context, true);
     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-  }
-
-  @override
-  void dispose() {
-    _emailTextFieldController.dispose();
-    _passwordTextFieldController.dispose();
-    super.dispose();
   }
 
   @override
@@ -76,8 +57,6 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
             invalidFieldValidatorError: kInvalidPasswordValidatorError,
             keyboardType: TextInputType.visiblePassword,
             isPasswordField: true,
-            passwordFieldFunction: _passwordVisible,
-            maskText: _passwordVisibilityValue,
           ),
           SizedBox(
             height: kSizeSetter(context, 'Height', 0.05),

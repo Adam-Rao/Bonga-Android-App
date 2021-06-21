@@ -2,40 +2,53 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
-class AuthFormField extends StatelessWidget {
-  const AuthFormField(
-      {Key? key,
-      @required TextEditingController? textFieldController,
-      @required String? hintText,
-      @required String? emptyFieldValidatorError,
-      @required String? invalidFieldValidatorError,
-      @required TextInputType? keyboardType,
-      @required bool? isPasswordField,
-      Function? passwordFieldFunction,
-      bool? maskText})
-      : _textFieldController = textFieldController,
+class AuthFormField extends StatefulWidget {
+  const AuthFormField({
+    Key? key,
+    required TextEditingController textFieldController,
+    required String hintText,
+    required String emptyFieldValidatorError,
+    required String invalidFieldValidatorError,
+    required TextInputType keyboardType,
+    required bool isPasswordField,
+  })  : _textFieldController = textFieldController,
         _hintText = hintText,
         _emptyFieldValidatorError = emptyFieldValidatorError,
         _invalidFieldValidatorError = invalidFieldValidatorError,
         _keyboardType = keyboardType,
         _isPasswordField = isPasswordField,
-        _passwordFieldFunction = passwordFieldFunction,
-        _maskText = maskText,
         super(key: key);
 
-  final TextEditingController? _textFieldController;
-  final String? _hintText;
-  final String? _emptyFieldValidatorError;
-  final String? _invalidFieldValidatorError;
-  final TextInputType? _keyboardType;
-  final bool? _isPasswordField;
-  final Function? _passwordFieldFunction;
-  final bool? _maskText;
+  final TextEditingController _textFieldController;
+  final String _hintText;
+  final String _emptyFieldValidatorError;
+  final String _invalidFieldValidatorError;
+  final TextInputType _keyboardType;
+  final bool _isPasswordField;
+
+  @override
+  _AuthFormFieldState createState() => _AuthFormFieldState();
+}
+
+class _AuthFormFieldState extends State<AuthFormField> {
+  @override
+  void dispose() {
+    widget._textFieldController.dispose();
+    super.dispose();
+  }
+
+  bool _passwordObscured = true;
+
+  void _obscurePassword() {
+    setState(() {
+      _passwordObscured = !_passwordObscured;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: _textFieldController,
+      controller: widget._textFieldController,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         fillColor: kTextPrimaryColour,
@@ -45,23 +58,21 @@ class AuthFormField extends StatelessWidget {
             color: kDefaultPrimaryColour,
           ),
         ),
-        hintText: _hintText,
+        hintText: widget._hintText,
         hintStyle: TextStyle(
           fontFamily: kFontFamily,
           fontSize: kHintTextSize,
           fontWeight: kFontWeightSemiBold,
         ),
-        suffixIcon: _isPasswordField == true
+        suffixIcon: widget._isPasswordField == true
             ? IconButton(
                 icon: Icon(Icons.visibility_rounded),
-                onPressed: () {
-                  _passwordFieldFunction;
-                },
+                onPressed: _obscurePassword,
               )
             : null,
       ),
-      keyboardType: _keyboardType,
-      obscureText: _isPasswordField == true ? _maskText! : false,
+      keyboardType: widget._keyboardType,
+      obscureText: widget._isPasswordField == true ? _passwordObscured : false,
       style: TextStyle(
         color: kPrimaryTextColour,
         fontFamily: kFontFamily,
@@ -70,16 +81,16 @@ class AuthFormField extends StatelessWidget {
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return _emptyFieldValidatorError;
+          return widget._emptyFieldValidatorError;
         }
 
-        if (_isPasswordField == true) {
+        if (widget._isPasswordField == true) {
           if (!kPasswordRegExPattern.hasMatch(value)) {
-            return _invalidFieldValidatorError;
+            return widget._invalidFieldValidatorError;
           }
         } else {
           if (!kEmailRegExPattern.hasMatch(value)) {
-            return _invalidFieldValidatorError;
+            return widget._invalidFieldValidatorError;
           }
         }
 

@@ -143,25 +143,9 @@ class ChangePasswordForm extends StatefulWidget {
 
 class _ChangePasswordFormState extends State<ChangePasswordForm> {
   final _changePasswordKey = GlobalKey<FormState>();
-  final TextEditingController? _newPasswordController = TextEditingController();
-  final TextEditingController? _confirmNewPasswordController =
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmNewPasswordController =
       TextEditingController();
-
-  bool _newPasswordVisibility = true;
-  bool _confirmNewPasswordVisibility = true;
-
-  void _newPasswordVisibilityController() {
-    setState(() {
-      _newPasswordVisibility = !_newPasswordVisibility;
-      print(_newPasswordVisibility);
-    });
-  }
-
-  void _confirmNewPasswordVisibilityController() {
-    setState(() {
-      _confirmNewPasswordVisibility = !_confirmNewPasswordVisibility;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,8 +162,6 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               invalidFieldValidatorError: kInvalidPasswordValidatorError,
               keyboardType: TextInputType.visiblePassword,
               isPasswordField: true,
-              passwordFieldFunction: _newPasswordVisibilityController,
-              maskText: _newPasswordVisibility,
             ),
             SizedBox(
               height: kSizeSetter(context, 'Height', 0.05),
@@ -191,8 +173,6 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               invalidFieldValidatorError: kInvalidPasswordValidatorError,
               keyboardType: TextInputType.visiblePassword,
               isPasswordField: true,
-              passwordFieldFunction: _confirmNewPasswordVisibilityController,
-              maskText: _confirmNewPasswordVisibility,
             ),
             SizedBox(
               height: kSizeSetter(context, 'Height', 0.05),
