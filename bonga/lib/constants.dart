@@ -1,7 +1,10 @@
+import 'package:bonga/models/MessageItem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+import 'views/components/Indicator.dart';
 import 'views/components/ItemRow.dart';
+import 'views/components/ProfileAvatar.dart';
 import 'views/components/Text.dart';
 
 // Colours
@@ -168,5 +171,91 @@ Function kShowBottomSheet =
   );
 };
 
-String kDeleteAccountInformation = 'This operation is irreversible.\nAll data associated with this account will be deleted.';
+String kDeleteAccountInformation =
+    'This operation is irreversible.\nAll data associated with this account will be deleted.';
 
+// List of Dummy messages. Delete After Development
+List<MessageItem> kDevMessageItems = [
+  MessageItem(1, "Munyau", "Niaje motherfucker?", ''),
+  MessageItem(1, "Atieno", "Ilikuwa tupatane wapi?", ''),
+  MessageItem(10, "Mtunguyaz", "Buda, ushafanya cat?", ''),
+  MessageItem(
+      0, "Felo", "Buda iyo anime ilikuwa ufala. Lip syncing was way off.", ''),
+  MessageItem(
+      0, "Esther", "Unaeza tumia OpenSSL for generating your keys.", ''),
+  MessageItem(
+      3,
+      "Wendy",
+      "Urm, yeah. If the conversation is leading to that direction, I'm not looking for that right now.",
+      ''),
+  MessageItem(
+      8, "Robinson", "Buda, mtu akitaka kuenda Karura anapanda mat gani?", ''),
+  MessageItem(2, "Okundi", "Msee. Unajua place naeza pata invincible?", ''),
+  MessageItem(0, "Bazenga", "Niaje? Utakuwa ma-area wikendi?", ''),
+  MessageItem(
+      0,
+      "Dee",
+      "You stir the mixture until it becomes thick. Add some sugar and stir for 5 more minutes",
+      ''),
+  MessageItem(0, "Siz", "Karibu osiepa", ''),
+  MessageItem(0, "Azariah", "Nilipata zile tools za kufungua nayo pipe", ''),
+  MessageItem(
+      1, "Allan", "Ukidai booti fika ivi kwa kina Mel. Kuna mzinga.", ''),
+  MessageItem(
+      5,
+      "Ochola",
+      "Bro. If you have the cash, invest in Mumias. It's about 5 shillings a share.",
+      ''),
+];
+
+List<Widget> kGenerateMessages(BuildContext context) {
+  List<Widget> messages = [];
+  for (var messageItem in kDevMessageItems) {
+    List<Widget> message = [
+      AvatarContainer(
+        kSizeSetter(context, 'Width', 0.09),
+        false,
+        messageItem.getMessageAuthorImageURL,
+      ),
+      SizedBox(
+        width: kSizeSetter(context, 'Width', 0.1),
+      ),
+      Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppText(
+              messageItem.getMessageAuthor,
+              kFontWeightBold,
+              13.0,
+              kTextPrimaryColour,
+            ),
+            AppText(
+              // '${messageItem.getMessageBody.substring(0, 10)}...',
+              messageItem.getMessageBody.length <= 20
+                  ? '${messageItem.getMessageBody}'
+                  : '${messageItem.getMessageBody.substring(0, 21)}...',
+              kFontWeightRegular,
+              13.0,
+              kTextPrimaryColour,
+            ),
+          ],
+        ),
+      ),
+      SizedBox(
+        width: kSizeSetter(context, 'Width', 0.05),
+      ),
+      messageItem.getUnreadMessages != 0
+          ? Indicator(
+              size: 24.0,
+              unreadMessages: messageItem.getUnreadMessages,
+            )
+          : Container() // Container prevents app from crashing,
+    ];
+
+    messages.add(ItemRow(message, MainAxisAlignment.spaceBetween));
+  }
+
+  return messages;
+}

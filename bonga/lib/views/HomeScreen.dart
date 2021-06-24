@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import 'InboxScreen.dart';
 import 'components/AppBar.dart';
 import 'components/Text.dart';
 import 'components/PopUpMenu.dart';
@@ -60,16 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
       ),
-      body: _searching == false ? Inbox() : Search(),
-    );
-  }
-}
-
-class Inbox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Inbox Empty'),
+      body: _searching == false ? Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InboxScreen(),
+      ) : Search(),
     );
   }
 }
