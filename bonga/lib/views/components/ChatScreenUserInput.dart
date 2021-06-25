@@ -22,56 +22,58 @@ class _UserInputComponentState extends State<UserInputComponent> {
   Widget build(BuildContext context) {
     return Container(
       color: kDarkPrimaryColour,
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(5.0),
       width: kSizeSetter(context, 'Width', 1.0),
-      height: kSizeSetter(context, 'Height', 0.1),
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              controller: _userInputController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: TextField(
+                controller: _userInputController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: kDefaultPrimaryColour,
+                    ),
+                  ),
+                  fillColor: kTextPrimaryColour,
+                  filled: true,
+                  hintText: 'Type message...',
+                  hintStyle: TextStyle(
+                    fontSize: kHintTextSize,
+                    fontFamily: kFontFamily,
+                    fontWeight: kFontWeightRegular,
+                    color: Color(0X40000000),
+                  ),
+                  prefixIcon: IconButton(
+                    onPressed: null,
+                    icon: Icon(
+                      Icons.emoji_emotions_rounded,
+                      color: Color(0X40000000),
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    onPressed: null,
+                    icon: Icon(
+                      Icons.add,
+                      color: Color(0X40000000),
+                    ),
                   ),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: kDefaultPrimaryColour,
-                  ),
-                ),
-                fillColor: Colors.white,
-                filled: true,
-                hintText: 'Type message...',
-                hintStyle: TextStyle(
-                  fontSize: kHintTextSize,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                style: TextStyle(
+                  color: kPrimaryTextColour,
                   fontFamily: kFontFamily,
+                  fontSize: 16.0,
                   fontWeight: kFontWeightRegular,
-                  color: Color(0X40000000),
                 ),
-                prefixIcon: IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.emoji_emotions_rounded,
-                    color: Color(0X40000000),
-                  ),
-                ),
-                suffixIcon: IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.add,
-                    color: Color(0X40000000),
-                  ),
-                ),
-              ),
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              style: TextStyle(
-                color: kPrimaryTextColour,
-                fontFamily: kFontFamily,
-                fontSize: 16.0,
-                fontWeight: kFontWeightRegular,
               ),
             ),
           ),

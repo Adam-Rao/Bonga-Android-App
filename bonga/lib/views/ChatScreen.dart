@@ -76,7 +76,7 @@ class ChatScreenBody extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return Container();
             },
-            itemCount: 0,
+            itemCount: 15,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
           ),
