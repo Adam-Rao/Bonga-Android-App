@@ -1,4 +1,5 @@
 import 'package:bonga/views/AuthScreen.dart';
+import 'package:bonga/views/ChatScreen.dart';
 import 'package:bonga/views/HomeScreen.dart';
 import 'package:bonga/views/ProfileScreen.dart';
 import 'package:bonga/views/LoginScreen.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         '/home': (BuildContext context) => HomeScreen(),
         '/profile': (BuildContext context) => ProfileScreen(),
         '/settings': (BuildContext context) => SettingsScreen(),
+        '/chat': (BuildContext context) => ChatScreen(),
       },
     );
   }

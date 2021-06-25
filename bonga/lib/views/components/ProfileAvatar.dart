@@ -5,7 +5,7 @@ import '../../constants.dart';
 class AvatarContainer extends StatelessWidget {
   final double _radius;
   final bool _isImage;
-  final String _imgUrl;
+  final String? _imgUrl;
 
   const AvatarContainer(this._radius, this._isImage, this._imgUrl);
 
@@ -22,7 +22,7 @@ class AvatarContainer extends StatelessWidget {
             )
           : null,
       radius: _radius,
-      foregroundImage: _isImage == false ? null : NetworkImage(_imgUrl),
+      foregroundImage: _isImage == false ? null : NetworkImage(_imgUrl!),
     );
   }
 }

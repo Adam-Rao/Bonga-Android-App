@@ -23,7 +23,7 @@ class Indicator extends StatelessWidget {
       child: Material(
         color: kLightPrimaryColour,
         type: MaterialType.circle,
-        child: _unreadMessages == 0
+        child: _unreadMessages == 0 || _unreadMessages == null
             ? null
             : Center(
               child: AppText(
