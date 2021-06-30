@@ -59,8 +59,7 @@ class InboxScreen extends StatelessWidget {
                     SizedBox(
                       width: kSizeSetter(context, 'Width', 0.05),
                     ),
-                    inboxMessages[index].getUnreadMessages != 0 ||
-                            inboxMessages[index].getUnreadMessages != null
+                    inboxMessages[index].getUnreadMessages != 0
                         ? Indicator(
                             size: 24.0,
                             unreadMessages:

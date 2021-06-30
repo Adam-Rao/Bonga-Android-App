@@ -17,9 +17,9 @@ class MessageItem {
   String? get getMessageAuthorImageURL => this._messageAuthorImageURL;
 
   static MessageItem parseJson(json) => MessageItem(
-        json['unread_messages'],
+        json['unread_messages'] ?? 0,
         json['message_author'],
         json['message_body'],
-        json['message_author_image_url'],
+        json['message_author_image_url'] ?? '',
       );
 }
