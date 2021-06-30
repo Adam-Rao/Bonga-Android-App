@@ -1,9 +1,9 @@
 import 'package:bonga/constants.dart';
-import 'package:bonga/views/components/AppBar.dart';
-import 'package:bonga/views/components/ChatScreenUserInput.dart';
-import 'package:bonga/views/components/Indicator.dart';
-import 'package:bonga/views/components/ProfileAvatar.dart';
-import 'package:bonga/views/components/Text.dart';
+import 'package:bonga/views/components/app_bar.dart';
+import 'package:bonga/views/components/chat_screen_user_input.dart';
+import 'package:bonga/views/components/indicator.dart';
+import 'package:bonga/views/components/profile_avatar.dart';
+import 'package:bonga/views/components/text.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {

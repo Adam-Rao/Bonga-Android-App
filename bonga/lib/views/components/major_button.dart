@@ -1,4 +1,4 @@
-import 'package:bonga/views/components/Text.dart';
+import 'package:bonga/views/components/text.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';

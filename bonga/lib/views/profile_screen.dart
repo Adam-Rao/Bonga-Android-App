@@ -1,13 +1,13 @@
 import 'package:bonga/constants.dart';
-import 'package:bonga/views/components/AppBar.dart';
-import 'package:bonga/views/components/PopUpMenu.dart';
-import 'package:bonga/views/components/Text.dart';
+import 'package:bonga/views/components/app_bar.dart';
+import 'package:bonga/views/components/popup_menu.dart';
+import 'package:bonga/views/components/text.dart';
 import 'package:flutter/material.dart';
 
-import 'components/EditDetail.dart';
-import 'components/ItemRow.dart';
-import 'components/MajorButton.dart';
-import 'components/ProfileAvatar.dart';
+import 'components/edit_detail.dart';
+import 'components/item_row.dart';
+import 'components/major_button.dart';
+import 'components/profile_avatar.dart';
 
 class ProfileScreen extends StatelessWidget {
   final List<Widget> _usernameRowItems = [

@@ -1,5 +1,5 @@
 import 'package:bonga/constants.dart';
-import 'package:bonga/views/components/Text.dart';
+import 'package:bonga/views/components/text.dart';
 import 'package:flutter/material.dart';
 
 class Indicator extends StatelessWidget {

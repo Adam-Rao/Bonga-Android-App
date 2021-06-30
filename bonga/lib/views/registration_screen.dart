@@ -1,8 +1,8 @@
 import 'package:bonga/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'components/FormField.dart';
-import 'components/MajorButton.dart';
+import 'components/form_field.dart';
+import 'components/major_button.dart';
 
 class RegistrationScreen extends StatelessWidget {
   @override

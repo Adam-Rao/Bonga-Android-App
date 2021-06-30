@@ -1,10 +1,10 @@
 import 'package:bonga/constants.dart';
-import 'package:bonga/views/components/EditDetail.dart';
-import 'package:bonga/views/components/MajorButton.dart';
-import 'package:bonga/views/components/Text.dart';
+import 'package:bonga/views/components/edit_detail.dart';
+import 'package:bonga/views/components/major_button.dart';
+import 'package:bonga/views/components/text.dart';
 import 'package:flutter/material.dart';
 
-import 'components/ItemRow.dart';
+import 'components/item_row.dart';
 
 class AuthScreen extends StatelessWidget {
   // TODO: Code Horizontal Layout for this screen

@@ -1,8 +1,8 @@
-import 'package:bonga/views/components/TextField.dart';
+import 'package:bonga/views/components/text_field.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
-import 'Text.dart';
+import 'text.dart';
 
 class EditDetail extends StatelessWidget {
   const EditDetail(

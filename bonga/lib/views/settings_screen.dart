@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 import '../constants.dart';
-import 'components/AppBar.dart';
-import 'components/FormField.dart';
-import 'components/ItemRow.dart';
-import 'components/MajorButton.dart';
-import 'components/PopUpMenu.dart';
-import 'components/ProfileAvatar.dart';
-import 'components/Text.dart';
+import 'components/app_bar.dart';
+import 'components/form_field.dart';
+import 'components/item_row.dart';
+import 'components/major_button.dart';
+import 'components/popup_menu.dart';
+import 'components/profile_avatar.dart';
+import 'components/text.dart';
 
 class SettingsScreen extends StatelessWidget {
   void _settingsListController(BuildContext context, int index) {

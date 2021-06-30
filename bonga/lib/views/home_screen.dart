@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-import 'InboxScreen.dart';
-import 'components/AppBar.dart';
-import 'components/Text.dart';
-import 'components/PopUpMenu.dart';
-import 'components/TextField.dart';
+import 'inbox_screen.dart';
+import 'components/app_bar.dart';
+import 'components/text.dart';
+import 'components/popup_menu.dart';
+import 'components/text_field.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

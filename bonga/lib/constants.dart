@@ -1,11 +1,11 @@
-import 'package:bonga/models/MessageItem.dart';
+import 'package:bonga/models/message_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-import 'views/components/Indicator.dart';
-import 'views/components/ItemRow.dart';
-import 'views/components/ProfileAvatar.dart';
-import 'views/components/Text.dart';
+import 'views/components/indicator.dart';
+import 'views/components/item_row.dart';
+import 'views/components/profile_avatar.dart';
+import 'views/components/text.dart';
 
 // Colours
 Color kDarkPrimaryColour = Color(0xFF455A64);

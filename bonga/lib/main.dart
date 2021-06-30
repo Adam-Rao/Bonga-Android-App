@@ -1,10 +1,10 @@
-import 'package:bonga/views/AuthScreen.dart';
-import 'package:bonga/views/ChatScreen.dart';
-import 'package:bonga/views/HomeScreen.dart';
-import 'package:bonga/views/ProfileScreen.dart';
-import 'package:bonga/views/LoginScreen.dart';
-import 'package:bonga/views/RegistrationScreen.dart';
-import 'package:bonga/views/SettingsScreen.dart';
+import 'package:bonga/views/auth_screen.dart';
+import 'package:bonga/views/chat_screen.dart';
+import 'package:bonga/views/home_screen.dart';
+import 'package:bonga/views/profile_screen.dart';
+import 'package:bonga/views/login_screen.dart';
+import 'package:bonga/views/registration_screen.dart';
+import 'package:bonga/views/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
