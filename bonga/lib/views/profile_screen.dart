@@ -156,7 +156,8 @@ class ProfileScreen extends StatelessWidget {
           child: AvatarContainer(
             kSizeSetter(context, 'Width', 0.15),
             false,
-            '',
+            null,
+            'Profile Screen'
           ),
         ),
         Container(

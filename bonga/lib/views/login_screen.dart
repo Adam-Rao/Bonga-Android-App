@@ -63,7 +63,9 @@ class LoginScreenForm extends StatelessWidget {
           ),
           MajorButton(
             onPress: () {
-              _homeNavigator(context);
+              if (_loginFormKey.currentState!.validate()) {
+                _homeNavigator(context);
+              }
             },
             buttonColour: kDarkPrimaryColour,
             buttonTextColour: kTextPrimaryColour,

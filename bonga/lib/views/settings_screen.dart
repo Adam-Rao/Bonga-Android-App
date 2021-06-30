@@ -73,7 +73,8 @@ class SettingsScreen extends StatelessWidget {
                 AvatarContainer(
                   kSizeSetter(context, 'Width', 0.1),
                   false,
-                  '',
+                  null,
+                  'Settings Screen'
                 ),
                 SizedBox(
                   width: 20.0,

@@ -216,6 +216,7 @@ List<Widget> kGenerateMessages(BuildContext context) {
         kSizeSetter(context, 'Width', 0.09),
         false,
         messageItem.getMessageAuthorImageURL,
+        'HomeScreen'
       ),
       SizedBox(
         width: kSizeSetter(context, 'Width', 0.1),

@@ -38,6 +38,7 @@ class ChatScreen extends StatelessWidget {
                     20.0,
                     false,
                     null,
+                    'Chat Screen'
                   ),
                 ),
               ),
@@ -74,7 +75,10 @@ class ChatScreenBody extends StatelessWidget {
         Expanded(
           child: ListView.builder(
             itemBuilder: (BuildContext context, int index) {
-              return Container();
+              return Container(
+                width: kSizeSetter(context, 'Width', 0.5),
+                child: Row(),
+              );
             },
             itemCount: 15,
             shrinkWrap: true,

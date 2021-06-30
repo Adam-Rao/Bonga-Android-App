@@ -28,6 +28,11 @@ class RegistrationScreenForm extends StatelessWidget {
   final _passwordTextFieldController = TextEditingController();
   final _confirmPasswordTextFieldController = TextEditingController();
 
+  void _homeNavigator(BuildContext context) {
+    Navigator.pop(context, true);
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -71,7 +76,11 @@ class RegistrationScreenForm extends StatelessWidget {
             height: kSizeSetter(context, 'Height', 0.05),
           ),
           MajorButton(
-            onPress: null,
+            onPress: () {
+              if (_registrationFormKey.currentState!.validate()) {
+                _homeNavigator(context);
+              }
+            },
             buttonColour: kDarkPrimaryColour,
             buttonTextColour: kTextPrimaryColour,
             buttonText: 'REGISTER',
