@@ -22,10 +22,18 @@ class RegistrationScreen extends StatelessWidget {
   }
 }
 
-class RegistrationScreenForm extends StatelessWidget {
-  static final _registrationFormKey = GlobalKey<FormState>();
+class RegistrationScreenForm extends StatefulWidget {
+  @override
+  _RegistrationScreenFormState createState() => _RegistrationScreenFormState();
+}
+
+class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
+  final _registrationFormKey = GlobalKey<FormState>();
+
   final _emailTextFieldController = TextEditingController();
+
   final _passwordTextFieldController = TextEditingController();
+
   final _confirmPasswordTextFieldController = TextEditingController();
 
   void _homeNavigator(BuildContext context) {

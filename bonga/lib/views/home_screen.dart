@@ -28,6 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    final data =
+        DefaultAssetBundle.of(context).loadString('assets/MOCK_DATA.json');
+    print(data);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kDefaultPrimaryColour,
@@ -61,10 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
       ),
-      body: _searching == false ? Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: InboxScreen(),
-      ) : Search(),
+      body: _searching == false
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InboxScreen(),
+            )
+          : Search(),
     );
   }
 }
