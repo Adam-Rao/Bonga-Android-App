@@ -35,7 +35,7 @@ class ChatScreen extends StatelessWidget {
                 width: 30.0,
                 child: FittedBox(
                   child: AvatarContainer(
-                    20.0,
+                    40.0,
                     false,
                     null,
                     'Chat Screen'

@@ -28,14 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  void initState() {
-    final data =
-        DefaultAssetBundle.of(context).loadString('assets/MOCK_DATA.json');
-    print(data);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kDefaultPrimaryColour,
