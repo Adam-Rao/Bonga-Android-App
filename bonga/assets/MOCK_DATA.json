@@ -6,6 +6,18 @@
         "message_author_image_url": null
     },
     {
+        "message_author": "Some Username",
+        "message_body": "Something short",
+        "unread_messages": null,
+        "message_author_image_url": null
+    },
+    {
+        "message_author": "Some Username",
+        "message_body": "Something short",
+        "unread_messages": null,
+        "message_author_image_url": null
+    },
+    {
         "message_author": "Angil Twiddy",
         "message_body": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
         "unread_messages": 1,

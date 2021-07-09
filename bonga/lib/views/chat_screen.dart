@@ -83,7 +83,8 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: StreamBuilder<List<MessageItem>>(
-              stream: Stream.fromFuture(MockDataController.getMessages(context)),
+              stream:
+                  Stream.fromFuture(MockDataController.getMessages(context)),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(
@@ -96,7 +97,7 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                   );
                 } else if (snapshot.hasData) {
                   List<MessageItem> messages = snapshot.data!;
-        
+
                   return ListView.separated(
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
@@ -108,9 +109,15 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                         children: [
                           Flexible(
                             child: Padding(
-                              padding: EdgeInsets.only(right: kSizeSetter(context, 'Width', 0.3)),
+                              padding: messages[index].getMessageAuthor !=
+                                      "Some Username"
+                                  ? EdgeInsets.only(
+                                      right: kSizeSetter(context, 'Width', 0.3))
+                                  : EdgeInsets.only(
+                                      left: kSizeSetter(context, 'Width', 0.3)),
                               child: MessageBubble(
-                                messages[index].getMessageAuthor != "Some Username"
+                                messages[index].getMessageAuthor !=
+                                        "Some Username"
                                     ? false
                                     : true,
                                 messages[index].getMessageBody,
@@ -123,7 +130,8 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                         ],
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index) => Divider(
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(
                       color: Colors.transparent,
                     ),
                     shrinkWrap: true,
