@@ -16,6 +16,7 @@ class MessageBubble extends StatelessWidget {
       crossAxisAlignment: _userMessageOwner == true
           ? CrossAxisAlignment.start
           : CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
           decoration: BoxDecoration(

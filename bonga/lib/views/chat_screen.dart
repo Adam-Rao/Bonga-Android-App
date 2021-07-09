@@ -103,16 +103,18 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                       return Row(
                         mainAxisAlignment:
                             messages[index].getMessageAuthor != "Some Username"
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.end,
                         children: [
                           Flexible(
-                            flex: 6,
-                            child: MessageBubble(
-                              messages[index].getMessageAuthor != "Some Username"
-                                  ? false
-                                  : true,
-                              messages[index].getMessageBody,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: kSizeSetter(context, 'Width', 0.3)),
+                              child: MessageBubble(
+                                messages[index].getMessageAuthor != "Some Username"
+                                    ? false
+                                    : true,
+                                messages[index].getMessageBody,
+                              ),
                             ),
                           ),
                           SizedBox(
