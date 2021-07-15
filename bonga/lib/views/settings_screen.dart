@@ -16,14 +16,18 @@ class SettingsScreen extends StatelessWidget {
       case 0:
         kShowBottomSheet(
           context,
-          kSizeSetter(context, 'Height', 0.5),
+          MediaQuery.of(context).orientation == Orientation.portrait
+              ? kSizeSetter(context, 'Height', 0.5)
+              : kSizeSetter(context, 'Height', 0.8),
           ChangePasswordForm(),
         );
         break;
       case 1:
         kShowBottomSheet(
           context,
-          kSizeSetter(context, 'Height', 0.4),
+          MediaQuery.of(context).orientation == Orientation.portrait
+              ? kSizeSetter(context, 'Height', 0.4)
+              : kSizeSetter(context, 'Height', 0.6),
           DeleteAccountDialog(),
         );
         break;
@@ -64,72 +68,77 @@ class SettingsScreen extends StatelessWidget {
           kTextPrimaryColour,
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: kSizeSetter(context, 'Height', 0.2),
-            child: ItemRow(
-              [
-                AvatarContainer(
-                  kSizeSetter(context, 'Width', 0.1),
-                  false,
-                  null,
-                  'Settings Screen'
-                ),
-                SizedBox(
-                  width: 20.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppText(
-                      'Username',
-                      kFontWeightSemiBold,
-                      16.0,
-                      kTextPrimaryColour,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? kSizeSetter(context, 'Height', 0.2)
+                        : kSizeSetter(context, 'Height', 0.3),
+                child: ItemRow(
+                  [
+                    AvatarContainer(kSizeSetter(context, 'Width', 0.1), false,
+                        null, 'Settings Screen'),
+                    SizedBox(
+                      width: 20.0,
                     ),
-                    SizedBox(height: 2.0),
-                    AppText(
-                      'Placeholder Username',
-                      kFontWeightSemiBold,
-                      14.0,
-                      kTextPrimaryColour,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppText(
+                          'Username',
+                          kFontWeightSemiBold,
+                          16.0,
+                          kTextPrimaryColour,
+                        ),
+                        SizedBox(height: 2.0),
+                        AppText(
+                          'Placeholder Username',
+                          kFontWeightSemiBold,
+                          14.0,
+                          kTextPrimaryColour,
+                        ),
+                      ],
                     ),
                   ],
+                  MainAxisAlignment.center,
                 ),
-              ],
-              MainAxisAlignment.center,
+              ),
             ),
-          ),
-          Divider(
-            thickness: 2.0,
-            color: kPrimaryDividerColour,
-            indent: kSizeSetter(context, 'Width', 0.1),
-            endIndent: kSizeSetter(context, 'Width', 0.1),
-          ),
-          ListView.separated(
-            padding: EdgeInsets.all(20.0),
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () {
-                  _settingsListController(context, index);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: kAccountSettingsList[index],
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(
-              color: Colors.transparent,
+            Divider(
+              thickness: 2.0,
+              color: kPrimaryDividerColour,
+              indent: kSizeSetter(context, 'Width', 0.1),
+              endIndent: kSizeSetter(context, 'Width', 0.1),
             ),
-            itemCount: kAccountSettingsList.length,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-          ),
-        ],
+            ListView.separated(
+              padding: EdgeInsets.all(20.0),
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    _settingsListController(context, index);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: kAccountSettingsList[index],
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(
+                color: Colors.transparent,
+              ),
+              itemCount: kAccountSettingsList.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -187,7 +196,9 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               buttonText: 'CONFIRM',
               buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
               buttonHeight:
-                  kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
+                  MediaQuery.of(context).orientation == Orientation.portrait
+                      ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                      : kSizeSetter(context, 'Height', 0.15),
             ),
           ],
         ),
@@ -233,7 +244,9 @@ class DeleteAccountDialog extends StatelessWidget {
             buttonText: 'Delete Account',
             buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
             buttonHeight:
-                kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
+                MediaQuery.of(context).orientation == Orientation.portrait
+                    ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                    : kSizeSetter(context, 'Height', 0.15),
           ),
         ],
       ),
@@ -300,7 +313,7 @@ class PrivacySettingsDialog extends StatelessWidget {
           ],
           MainAxisAlignment.spaceEvenly,
         ),
-      ],
+            ],
     );
   }
 }

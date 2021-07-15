@@ -26,12 +26,18 @@ class InboxScreen extends StatelessWidget {
                 child: ItemRow(
                   [
                     AvatarContainer(
-                        kSizeSetter(context, 'Width', 0.09),
+                        MediaQuery.of(context).orientation ==
+                                Orientation.portrait
+                            ? kSizeSetter(context, 'Height', 0.05)
+                            : kSizeSetter(context, 'Height', 0.1),
                         false,
                         inboxMessages[index].getMessageAuthorImageURL,
                         'Home Screen'),
                     SizedBox(
-                      width: kSizeSetter(context, 'Width', 0.1),
+                      width: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? kSizeSetter(context, 'Width', 0.07)
+                          : kSizeSetter(context, 'Height', 0.1),
                     ),
                     Expanded(
                       child: Column(
@@ -48,7 +54,15 @@ class InboxScreen extends StatelessWidget {
                             // '${inboxMessages[index].getMessageBody.substring(0, 10)}...',
                             inboxMessages[index].getMessageBody.length <= 20
                                 ? '${inboxMessages[index].getMessageBody}'
-                                : '${inboxMessages[index].getMessageBody.substring(0, 21)}...',
+                                : MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? '${inboxMessages[index].getMessageBody.substring(0, 21)}...'
+                                    : inboxMessages[index]
+                                                .getMessageBody
+                                                .length <=
+                                            30
+                                        ? '${inboxMessages[index].getMessageBody}'
+                                        : '${inboxMessages[index].getMessageBody.substring(0, 50)}...',
                             kFontWeightRegular,
                             13.0,
                             kTextPrimaryColour,
@@ -74,7 +88,9 @@ class InboxScreen extends StatelessWidget {
             separatorBuilder: (BuildContext context, int index) => Divider(
               thickness: 2.0,
               color: kPrimaryDividerColour,
-              indent: kSizeSetter(context, 'Width', 0.15),
+              indent: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? kSizeSetter(context, 'Width', 0.15)
+                  : kSizeSetter(context, 'Width', 0.07),
               endIndent: kSizeSetter(context, 'Width', 0.02),
             ),
             itemCount: inboxMessages.length,

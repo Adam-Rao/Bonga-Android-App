@@ -5,7 +5,6 @@ import 'components/form_field.dart';
 import 'components/major_button.dart';
 
 class LoginScreen extends StatelessWidget {
-  // TODO: Code Horizontal Layout for this screen
 
   @override
   Widget build(BuildContext context) {
