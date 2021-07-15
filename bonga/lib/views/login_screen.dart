@@ -72,7 +72,9 @@ class LoginScreenForm extends StatelessWidget {
             buttonText: 'LOGIN',
             buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
             buttonHeight:
-                kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
+                MediaQuery.of(context).orientation == Orientation.portrait
+              ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
+              : kSizeSetter(context, 'Height', 0.15),
           ),
         ],
       ),

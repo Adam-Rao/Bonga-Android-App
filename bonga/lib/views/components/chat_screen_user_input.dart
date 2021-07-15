@@ -22,7 +22,6 @@ class _UserInputComponentState extends State<UserInputComponent> {
   Widget build(BuildContext context) {
     return Container(
       color: kDarkPrimaryColour,
-      padding: EdgeInsets.all(5.0),
       width: kSizeSetter(context, 'Width', 1.0),
       child: Row(
         children: [
@@ -77,17 +76,20 @@ class _UserInputComponentState extends State<UserInputComponent> {
               ),
             ),
           ),
-          Container(
-            height: 50.0,
-            width: 50.0,
-            child: FittedBox(
-              child: FloatingActionButton(
-                backgroundColor: kLightPrimaryColour,
-                onPressed: null,
-                child: Center(
-                  child: Icon(
-                    Icons.send,
-                    color: Colors.black,
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              height: 50.0,
+              width: 50.0,
+              child: FittedBox(
+                child: FloatingActionButton(
+                  backgroundColor: kLightPrimaryColour,
+                  onPressed: null,
+                  child: Center(
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
