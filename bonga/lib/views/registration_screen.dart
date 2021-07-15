@@ -11,11 +11,8 @@ class RegistrationScreen extends StatelessWidget {
       backgroundColor: kDefaultPrimaryColour,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Container(
-          height: kSizeSetter(context, 'Height', 0.8),
-          child: SingleChildScrollView(
-            child: RegistrationScreenForm(),
-          ),
+        child: SingleChildScrollView(
+          child: RegistrationScreenForm(),
         ),
       ),
     );
@@ -94,7 +91,9 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
             buttonText: 'REGISTER',
             buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
             buttonHeight:
-                kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
+                MediaQuery.of(context).orientation == Orientation.portrait
+                    ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                    : kSizeSetter(context, 'Height', 0.15),
           ),
         ],
       ),

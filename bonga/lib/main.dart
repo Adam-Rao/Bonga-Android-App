@@ -1,4 +1,4 @@
-import 'package:bonga/views/auth_screen.dart';
+import 'package:bonga/views/welcome_screen.dart';
 import 'package:bonga/views/chat_screen.dart';
 import 'package:bonga/views/home_screen.dart';
 import 'package:bonga/views/profile_screen.dart';
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => AuthScreen(),
+        '/': (BuildContext context) => WelcomeScreen(),
         '/registration': (BuildContext context) => RegistrationScreen(),
         '/login': (BuildContext context) => LoginScreen(),
         '/home': (BuildContext context) => HomeScreen(),
