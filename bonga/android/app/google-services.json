@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "304938449820",
+    "project_id": "bonga-4cca5",
+    "storage_bucket": "bonga-4cca5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304938449820:android:761e952d9069d424082659",
+        "android_client_info": {
+          "package_name": "com.github.adamrao.bonga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304938449820-876li7k635ciekqs82fbc2o49eg06jtv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.adamrao.bonga",
+            "certificate_hash": "14d342b2192012999d3eceba2fa3018855dcd900"
+          }
+        },
+        {
+          "client_id": "304938449820-r0p4kn6l292h1n52g9s7v3bsumuq7ho4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpI0XvykKmfEJA5-mMS7gPjCbovLth9Xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304938449820-r0p4kn6l292h1n52g9s7v3bsumuq7ho4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
