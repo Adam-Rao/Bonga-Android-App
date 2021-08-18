@@ -1,3 +1,4 @@
+import 'package:bonga/controllers/authentication.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -11,11 +12,14 @@ class PopUpMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton<kPopUpMenuValues>(
       onSelected: (kPopUpMenuValues value) {
-        if (value == kPopUpMenuValues.Profile && _currentScreen != 'ProfileScreen') {
+        if (value == kPopUpMenuValues.Profile &&
+            _currentScreen != 'ProfileScreen') {
           Navigator.pushNamed(context, '/profile');
-        } else if (value == kPopUpMenuValues.Settings && _currentScreen != 'SettingsScreen') {
+        } else if (value == kPopUpMenuValues.Settings &&
+            _currentScreen != 'SettingsScreen') {
           Navigator.pushNamed(context, '/settings');
         } else if (value == kPopUpMenuValues.Logout) {
+          Authentication.signOut();
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         }
       },

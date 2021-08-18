@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../constants.dart';
 import 'inbox_screen.dart';
@@ -15,6 +17,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool _searching = false;
   TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      SchedulerBinding.instance?.addPostFrameCallback((_) {
+        kNormalPush(context, '/login');
+      });
+    }
+  }
 
   void _searchStateController() {
     setState(() {

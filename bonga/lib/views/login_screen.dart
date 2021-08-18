@@ -1,11 +1,12 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/controllers/authentication.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'components/form_field.dart';
 import 'components/major_button.dart';
 
 class LoginScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +28,19 @@ class LoginScreenForm extends StatelessWidget {
   final _emailTextFieldController = TextEditingController();
   final _passwordTextFieldController = TextEditingController();
 
-  void _homeNavigator(BuildContext context) {
-    Navigator.pop(context, true);
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  void _loginUser(BuildContext context) async {
+    bool userConnected = await kCheckConnectivity();
+
+    if (userConnected) {
+      Authentication.loginUser(
+        _emailTextFieldController.text,
+        _passwordTextFieldController.text,
+      );
+      Navigator.pop(context, true);
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    } else {
+      Fluttertoast.showToast(msg: 'No internet connextion');
+    }
   }
 
   @override
@@ -63,7 +74,7 @@ class LoginScreenForm extends StatelessWidget {
           MajorButton(
             onPress: () {
               if (_loginFormKey.currentState!.validate()) {
-                _homeNavigator(context);
+                _loginUser(context);
               }
             },
             buttonColour: kDarkPrimaryColour,
@@ -72,8 +83,8 @@ class LoginScreenForm extends StatelessWidget {
             buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
             buttonHeight:
                 MediaQuery.of(context).orientation == Orientation.portrait
-              ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-              : kSizeSetter(context, 'Height', 0.15),
+                    ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                    : kSizeSetter(context, 'Height', 0.15),
           ),
         ],
       ),

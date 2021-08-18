@@ -1,5 +1,7 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/controllers/authentication.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'components/form_field.dart';
 import 'components/major_button.dart';
@@ -33,9 +35,24 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
 
   final _confirmPasswordTextFieldController = TextEditingController();
 
-  void _homeNavigator(BuildContext context) {
-    Navigator.pop(context, true);
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  void _registerNewUser(BuildContext context) async {
+    if (_passwordTextFieldController.text !=
+        _confirmPasswordTextFieldController.text) {
+      Fluttertoast.showToast(msg: 'Passwords not matching');
+    } else {
+      bool userConnected = await kCheckConnectivity();
+
+      if (userConnected) {
+        Authentication.registerUser(
+          _emailTextFieldController.text,
+          _confirmPasswordTextFieldController.text,
+        );
+        Navigator.pop(context, true);
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      } else {
+        Fluttertoast.showToast(msg: 'No internet connextion');
+      }
+    }
   }
 
   @override
@@ -83,7 +100,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
           MajorButton(
             onPress: () {
               if (_registrationFormKey.currentState!.validate()) {
-                _homeNavigator(context);
+                _registerNewUser(context);
               }
             },
             buttonColour: kDarkPrimaryColour,

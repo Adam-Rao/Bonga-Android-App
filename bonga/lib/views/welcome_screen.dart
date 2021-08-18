@@ -2,7 +2,9 @@ import 'package:bonga/constants.dart';
 import 'package:bonga/views/components/edit_detail.dart';
 import 'package:bonga/views/components/major_button.dart';
 import 'package:bonga/views/components/text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import 'components/item_row.dart';
 
@@ -46,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-class PotraitWelcomeScreenBody extends StatelessWidget {
+class PotraitWelcomeScreenBody extends StatefulWidget {
   const PotraitWelcomeScreenBody({
     Key? key,
     required List<Widget> appBanner,
@@ -59,6 +61,25 @@ class PotraitWelcomeScreenBody extends StatelessWidget {
   final TextEditingController _forgotPasswordController;
 
   @override
+  _PotraitWelcomeScreenBodyState createState() => _PotraitWelcomeScreenBodyState();
+}
+
+class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      SchedulerBinding.instance?.addPostFrameCallback((_) {
+        kNormalPush(context, '/home');
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
@@ -69,7 +90,7 @@ class PotraitWelcomeScreenBody extends StatelessWidget {
               : kSizeSetter(context, 'Height', 0.1),
           child: Center(
             child: ItemRow(
-              _appBanner,
+              widget._appBanner,
               MainAxisAlignment.center,
             ),
           ),
@@ -96,7 +117,6 @@ class PotraitWelcomeScreenBody extends StatelessWidget {
                     MediaQuery.of(context).orientation == Orientation.portrait
                         ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
                         : kSizeSetter(context, 'Height', 0.15),
-                // kSizeSetter(context, 'Height', kAuthButtonHeightRatio),
               ),
               SizedBox(
                 height:
@@ -133,7 +153,7 @@ class PotraitWelcomeScreenBody extends StatelessWidget {
                           ? kSizeSetter(context, 'Height', 0.3)
                           : kSizeSetter(context, 'Height', 0.5),
                       EditDetail(
-                        detailController: _forgotPasswordController,
+                        detailController: widget._forgotPasswordController,
                         hintText: 'Enter your email address',
                       ),
                     );
