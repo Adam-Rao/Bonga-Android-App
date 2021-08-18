@@ -12,6 +12,7 @@ class Authentication {
 
       if (user != null && !user.emailVerified) {
         await user.sendEmailVerification();
+        Fluttertoast.showToast(msg: 'Email verification link sent');
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
