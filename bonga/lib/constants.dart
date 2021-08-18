@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -167,6 +168,17 @@ Function kShowBottomSheet =
     isScrollControlled: true,
   );
 };
+
+Future<bool> kCheckConnectivity() async {
+  var connectivityResult = await (Connectivity().checkConnectivity());
+
+  if (connectivityResult == ConnectivityResult.mobile ||
+      connectivityResult == ConnectivityResult.wifi) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 String kDeleteAccountInformation =
     'This operation is irreversible.\nAll data associated with this account will be deleted.';
