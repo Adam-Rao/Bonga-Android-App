@@ -1,5 +1,7 @@
+import 'package:bonga/controllers/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../constants.dart';
 import 'components/app_bar.dart';
@@ -236,8 +238,14 @@ class DeleteAccountDialog extends StatelessWidget {
             ),
           ),
           MajorButton(
-            onPress: () {
-              Navigator.pop(context);
+            onPress: () async {
+              bool userDeleted = await Authentication.deleteUser(context);
+              if (userDeleted) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/', (route) => false);
+              } else {
+                Fluttertoast.showToast(msg: 'Account Deletion Failed.');
+              }
             },
             buttonColour: kLightPrimaryColour,
             buttonTextColour: kPrimaryTextColour,
@@ -313,7 +321,7 @@ class PrivacySettingsDialog extends StatelessWidget {
           ],
           MainAxisAlignment.spaceEvenly,
         ),
-            ],
+      ],
     );
   }
 }

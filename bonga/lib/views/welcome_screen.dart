@@ -1,4 +1,5 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/controllers/authentication.dart';
 import 'package:bonga/views/components/edit_detail.dart';
 import 'package:bonga/views/components/major_button.dart';
 import 'package:bonga/views/components/text.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/scheduler.dart';
 import 'components/item_row.dart';
 
 class WelcomeScreen extends StatelessWidget {
-
   final List<Widget> _appBanner = [
     AppText(
       'Bong',
@@ -61,11 +61,11 @@ class PotraitWelcomeScreenBody extends StatefulWidget {
   final TextEditingController _forgotPasswordController;
 
   @override
-  _PotraitWelcomeScreenBodyState createState() => _PotraitWelcomeScreenBodyState();
+  _PotraitWelcomeScreenBodyState createState() =>
+      _PotraitWelcomeScreenBodyState();
 }
 
 class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
-
   @override
   void initState() {
     super.initState();
@@ -77,6 +77,10 @@ class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
         kNormalPush(context, '/home');
       });
     }
+  }
+
+  void _resetPassword() {
+    Authentication.resetPassword(widget._forgotPasswordController.text);
   }
 
   @override
@@ -155,6 +159,7 @@ class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
                       EditDetail(
                         detailController: widget._forgotPasswordController,
                         hintText: 'Enter your email address',
+                        detailHandler: _resetPassword,
                       ),
                     );
                   },

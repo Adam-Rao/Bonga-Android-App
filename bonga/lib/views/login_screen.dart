@@ -36,10 +36,9 @@ class LoginScreenForm extends StatelessWidget {
         _emailTextFieldController.text,
         _passwordTextFieldController.text,
       );
-      Navigator.pop(context, true);
       Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
     } else {
-      Fluttertoast.showToast(msg: 'No internet connextion');
+      Fluttertoast.showToast(msg: 'No internet connection');
     }
   }
 

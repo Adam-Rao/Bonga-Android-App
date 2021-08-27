@@ -47,10 +47,9 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
           _emailTextFieldController.text,
           _confirmPasswordTextFieldController.text,
         );
-        Navigator.pop(context, true);
         Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
       } else {
-        Fluttertoast.showToast(msg: 'No internet connextion');
+        Fluttertoast.showToast(msg: 'No internet connection');
       }
     }
   }
