@@ -241,7 +241,8 @@ class DeleteAccountDialog extends StatelessWidget {
             onPress: () async {
               bool userDeleted = await Authentication.deleteUser(context);
               if (userDeleted) {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/', (route) => false);
               } else {
                 Fluttertoast.showToast(msg: 'Account Deletion Failed.');
               }
