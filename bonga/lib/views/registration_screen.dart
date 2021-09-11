@@ -41,13 +41,19 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
       Fluttertoast.showToast(msg: 'Passwords not matching');
     } else {
       bool userConnected = await kCheckConnectivity();
+      bool userRegistered;
 
       if (userConnected) {
-        Authentication.registerUser(
+        userRegistered = await Authentication.registerUser(
           _emailTextFieldController.text,
           _confirmPasswordTextFieldController.text,
         );
-        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+        if (userRegistered) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/login', (route) => false);
+        } else {
+          Fluttertoast.showToast(msg: 'User registration failed');
+        }
       } else {
         Fluttertoast.showToast(msg: 'No internet connection');
       }

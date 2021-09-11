@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Authentication {
-  static Future<void> registerUser(String emailAddress, String password) async {
+  static Future<bool> registerUser(String emailAddress, String password) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
@@ -20,15 +20,19 @@ class Authentication {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Fluttertoast.showToast(msg: 'Please use a stronger password.');
+        return false;
       } else if (e.code == 'email-already-in-use') {
         Fluttertoast.showToast(msg: 'This email address is already registered');
+        return false;
       }
     } catch (e) {
       print(e);
     }
+
+    return true;
   }
 
-  static Future<void> loginUser(String emailAddress, String password) async {
+  static Future<bool> loginUser(String emailAddress, String password) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailAddress,
@@ -37,17 +41,29 @@ class Authentication {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(msg: 'User does not exist');
+        return false;
       } else if (e.code == 'wrong-password') {
         Fluttertoast.showToast(msg: 'Incorrect password. Try again');
+        return false;
       }
     } catch (e) {
       print(e);
     }
+
+    return true;
   }
 
-  static void resetPassword(String emailAddress) async {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress);
-    Fluttertoast.showToast(msg: 'Password reset link sent to email');
+  static Future<bool> resetPassword(String emailAddress) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-email') {
+        return false;
+      } else if (e.code == 'user-not-found') {
+        return false;
+      }
+    }
+    return true;
   }
 
   static Future<bool> deleteUser(BuildContext context) async {

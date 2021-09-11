@@ -243,6 +243,7 @@ class DeleteAccountDialog extends StatelessWidget {
               if (userDeleted) {
                 Navigator.pushNamedAndRemoveUntil(
                     context, '/', (route) => false);
+                Fluttertoast.showToast(msg: 'Account Deletion Successful');
               } else {
                 Fluttertoast.showToast(msg: 'Account Deletion Failed.');
               }
