@@ -76,10 +76,15 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<DocumentSnapshot>(
+        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             Fluttertoast.showToast(msg: 'Failed loading user data');
+            return Center(
+              child: Text('Error'),
+            );
           } else if (snapshot.hasData) {
+            print(snapshot.data!.data());
             Map<String, dynamic> userDetail =
                 snapshot.data!.data() as Map<String, dynamic>;
 
@@ -156,7 +161,9 @@ class SettingsScreen extends StatelessWidget {
               ),
             );
           }
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );
@@ -354,6 +361,9 @@ class _PrivacySettingsSwitchState extends State<PrivacySettingsSwitch> {
             .doc(userId)
             .snapshots(),
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            Fluttertoast.showToast(msg: 'Error showing data');
+          }
           if (snapshot.hasData) {
             Map<String, dynamic> userDetail =
                 snapshot.data!.data() as Map<String, dynamic>;
@@ -374,7 +384,9 @@ class _PrivacySettingsSwitchState extends State<PrivacySettingsSwitch> {
               ),
             );
           }
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 }
