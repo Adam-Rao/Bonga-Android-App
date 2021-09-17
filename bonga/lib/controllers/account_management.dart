@@ -30,9 +30,6 @@ class AccountManagement {
       case 'username':
         users.doc(userId).update({'username': detail});
         return true;
-      case 'profile_picture':
-        users.doc(userId).update({'profile_picture': detail});
-        return true;
       case 'about':
         users.doc(userId).update({'about': detail});
         return true;

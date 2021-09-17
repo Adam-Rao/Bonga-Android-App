@@ -1,4 +1,5 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/controllers/account_management.dart';
 import 'package:bonga/views/components/app_bar.dart';
 import 'package:bonga/views/components/popup_menu.dart';
 import 'package:bonga/views/components/text.dart';
@@ -18,7 +19,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   final List<Widget> _emailAddressRowItems = [
     SizedBox(
       width: 0.05,
@@ -220,6 +220,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           EditDetail(
                             detailController: _editUsernameController,
                             hintText: '',
+                            detailHandler: () async {
+                              bool usernameChanged = await AccountManagement
+                                  .changeUserProfileDetail('username',
+                                      _editUsernameController.text, userId);
+
+                              if (usernameChanged) {
+                                Fluttertoast.showToast(
+                                    msg: 'Username change successful');
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: 'Username change failed');
+                              }
+                            },
                           ),
                         ),
                       ),
@@ -275,6 +288,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           EditDetail(
                             detailController: _editAboutController,
                             hintText: '',
+                            detailHandler: () async {
+                              bool aboutChanged = await AccountManagement
+                                  .changeUserProfileDetail('about',
+                                      _editAboutController.text, userId);
+
+                              if (aboutChanged) {
+                                Fluttertoast.showToast(
+                                    msg: 'Username change successful');
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: 'Username change failed');
+                              }
+                            },
                           ),
                         ),
                       ),
