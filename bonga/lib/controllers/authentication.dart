@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:bonga/constants.dart';
+import 'package:bonga/controllers/account_management.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,6 +16,8 @@ class Authentication {
 
       if (user != null && !user.emailVerified) {
         await user.sendEmailVerification();
+        await AccountManagement.createUserDetailsUponAccountCreation(
+            emailAddress, user.uid);
         Fluttertoast.showToast(msg: 'Email verification link sent');
       }
     } on FirebaseAuthException catch (e) {
