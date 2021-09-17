@@ -19,74 +19,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final List<Widget> _emailAddressRowItems = [
-    SizedBox(
-      width: 0.05,
-    ),
-    Icon(
-      Icons.email,
-      color: Colors.white,
-      size: 50.0,
-    ),
-    SizedBox(
-      width: 0.05,
-    ),
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppText(
-          'Email Address',
-          kFontWeightSemiBold,
-          13.0,
-          kTextPrimaryColour,
-        ),
-        SizedBox(height: 2.0),
-        AppText(
-          FirebaseAuth.instance.currentUser!.email!,
-          kFontWeightSemiBold,
-          11.0,
-          kTextPrimaryColour,
-        ),
-      ],
-    ),
-  ];
-
-  final List<Widget> _emailAddressRowItemsLandScape = [
-    Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Icon(
-        Icons.email,
-        color: Colors.white,
-        size: 50.0,
-      ),
-    ),
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppText(
-          'Email Address',
-          kFontWeightSemiBold,
-          13.0,
-          kTextPrimaryColour,
-        ),
-        SizedBox(height: 2.0),
-        AppText(
-          FirebaseAuth.instance.currentUser!.email!,
-          kFontWeightSemiBold,
-          11.0,
-          kTextPrimaryColour,
-        ),
-      ],
-    ),
-    IconButton(
-      onPressed: null,
-      icon: Icon(
-        Icons.edit,
-        color: Colors.white,
-        size: 30.0,
-      ),
-    ),
-  ];
 
   final userId = FirebaseAuth.instance.currentUser!.uid;
   final _editAboutController = TextEditingController();
@@ -116,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           kTextPrimaryColour,
         ),
       ),
-      body: StreamBuilder(
+      body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
             .doc(userId)
@@ -126,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Fluttertoast.showToast(msg: 'Error loading data');
           } else if (snapshot.hasData) {
             Map<String, dynamic> userDetails =
-                snapshot.data as Map<String, dynamic>;
+                snapshot.data!.data() as Map<String, dynamic>;
 
             _editUsernameController.text = userDetails['username'];
             _editAboutController.text = userDetails['about'];
@@ -241,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       GestureDetector(
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(15.0),
                           child: ItemRow(
                             [
                               Icon(
@@ -303,22 +235,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ItemRow(
-                          MediaQuery.of(context).orientation ==
-                                  Orientation.portrait
-                              ? _emailAddressRowItems
-                              : _emailAddressRowItemsLandScape,
-                          MainAxisAlignment.spaceEvenly,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0,
                       ),
                     ],
                   ),

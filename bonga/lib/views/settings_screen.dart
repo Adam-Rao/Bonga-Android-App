@@ -1,4 +1,7 @@
+import 'package:bonga/controllers/account_management.dart';
 import 'package:bonga/controllers/authentication.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -46,6 +49,8 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
+  final userId = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,77 +75,89 @@ class SettingsScreen extends StatelessWidget {
           kTextPrimaryColour,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? kSizeSetter(context, 'Height', 0.2)
-                        : kSizeSetter(context, 'Height', 0.3),
-                child: ItemRow(
-                  [
-                    AvatarContainer(kSizeSetter(context, 'Width', 0.1), false,
-                        null, 'Settings Screen'),
-                    SizedBox(
-                      width: 20.0,
+      body: FutureBuilder<DocumentSnapshot>(
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            Fluttertoast.showToast(msg: 'Failed loading user data');
+          } else if (snapshot.hasData) {
+            Map<String, dynamic> userDetail =
+                snapshot.data!.data() as Map<String, dynamic>;
+
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? kSizeSetter(context, 'Height', 0.2)
+                          : kSizeSetter(context, 'Height', 0.3),
+                      child: ItemRow(
+                        [
+                          AvatarContainer(kSizeSetter(context, 'Width', 0.1),
+                              false, null, 'Settings Screen'),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AppText(
+                                'Username',
+                                kFontWeightSemiBold,
+                                16.0,
+                                kTextPrimaryColour,
+                              ),
+                              SizedBox(height: 2.0),
+                              AppText(
+                                userDetail['username'],
+                                kFontWeightSemiBold,
+                                14.0,
+                                kTextPrimaryColour,
+                              ),
+                            ],
+                          ),
+                        ],
+                        MainAxisAlignment.center,
+                      ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AppText(
-                          'Username',
-                          kFontWeightSemiBold,
-                          16.0,
-                          kTextPrimaryColour,
-                        ),
-                        SizedBox(height: 2.0),
-                        AppText(
-                          'Placeholder Username',
-                          kFontWeightSemiBold,
-                          14.0,
-                          kTextPrimaryColour,
-                        ),
-                      ],
-                    ),
-                  ],
-                  MainAxisAlignment.center,
-                ),
-              ),
-            ),
-            Divider(
-              thickness: 2.0,
-              color: kPrimaryDividerColour,
-              indent: kSizeSetter(context, 'Width', 0.1),
-              endIndent: kSizeSetter(context, 'Width', 0.1),
-            ),
-            ListView.separated(
-              padding: EdgeInsets.all(20.0),
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    _settingsListController(context, index);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: kAccountSettingsList[index],
                   ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(
-                color: Colors.transparent,
+                  Divider(
+                    thickness: 2.0,
+                    color: kPrimaryDividerColour,
+                    indent: kSizeSetter(context, 'Width', 0.1),
+                    endIndent: kSizeSetter(context, 'Width', 0.1),
+                  ),
+                  ListView.separated(
+                    padding: EdgeInsets.all(20.0),
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          _settingsListController(context, index);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: kAccountSettingsList[index],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(
+                      color: Colors.transparent,
+                    ),
+                    itemCount: kAccountSettingsList.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                  ),
+                ],
               ),
-              itemCount: kAccountSettingsList.length,
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-            ),
-          ],
-        ),
+            );
+          }
+          return CircularProgressIndicator();
+        },
       ),
     );
   }
@@ -288,7 +305,9 @@ class PrivacySettingsDialog extends StatelessWidget {
               13,
               kTextPrimaryColour,
             ),
-            PrivacySettingsSwitch(),
+            PrivacySettingsSwitch(
+              privacySetting: 'profile_picture_visible',
+            ),
           ],
           MainAxisAlignment.spaceEvenly,
         ),
@@ -303,22 +322,9 @@ class PrivacySettingsDialog extends StatelessWidget {
             SizedBox(
               width: 10.0,
             ),
-            PrivacySettingsSwitch(),
-          ],
-          MainAxisAlignment.spaceEvenly,
-        ),
-        ItemRow(
-          [
-            AppText(
-              'Email Visible To Everyone',
-              kFontWeightSemiBold,
-              13,
-              kTextPrimaryColour,
+            PrivacySettingsSwitch(
+              privacySetting: 'profile_picture_visible',
             ),
-            SizedBox(
-              width: 10.0,
-            ),
-            PrivacySettingsSwitch(),
           ],
           MainAxisAlignment.spaceEvenly,
         ),
@@ -328,30 +334,47 @@ class PrivacySettingsDialog extends StatelessWidget {
 }
 
 class PrivacySettingsSwitch extends StatefulWidget {
-  const PrivacySettingsSwitch({Key? key}) : super(key: key);
+  final String? _privacySetting;
+  const PrivacySettingsSwitch({Key? key, String? privacySetting})
+      : _privacySetting = privacySetting,
+        super(key: key);
 
   @override
   _PrivacySettingsSwitchState createState() => _PrivacySettingsSwitchState();
 }
 
 class _PrivacySettingsSwitchState extends State<PrivacySettingsSwitch> {
-  bool _visible = true;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FlutterSwitch(
-        height: 15.0,
-        width: 35.0,
-        borderRadius: 30.0,
-        toggleSize: 15.0,
-        value: _visible,
-        onToggle: (value) {
-          setState(() {
-            _visible = value;
-          });
-        },
-      ),
-    );
+    return StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            Map<String, dynamic> userDetail =
+                snapshot.data!.data() as Map<String, dynamic>;
+            return Container(
+              child: FlutterSwitch(
+                height: 15.0,
+                width: 35.0,
+                borderRadius: 30.0,
+                toggleSize: 15.0,
+                value: userDetail[widget._privacySetting],
+                onToggle: (value) {
+                  AccountManagement.changeUserPrivacyPreference(
+                    widget._privacySetting!,
+                    value,
+                    userId,
+                  );
+                },
+              ),
+            );
+          }
+          return CircularProgressIndicator();
+        });
   }
 }

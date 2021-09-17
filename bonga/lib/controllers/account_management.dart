@@ -11,9 +11,7 @@ class AccountManagement {
     Map<String, dynamic> userDetails = {
       "about": "Hey, I'm new here.",
       "about_visible": false,
-      "email_address": emailAddress,
-      "email_address_visible": false,
-      "profile_picture": null,
+      "profile_picture": "",
       "profile_picture_visible": true,
       "username": 'User ${Random().nextInt(100000)}'
     };
@@ -40,19 +38,16 @@ class AccountManagement {
     return false;
   }
 
-  static Future<bool> changeUserPrivacyDetail(
-      String privacyCategory, bool detail, String userId) async {
+  static Future<bool> changeUserPrivacyPreference(
+      String privacyCategory, bool visibile, String userId) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     switch (privacyCategory) {
-      case 'about-visibility':
-        users.doc(userId).update({'about_visible': detail});
+      case 'about_visible':
+        users.doc(userId).update({'about_visible': visibile});
         return true;
-      case 'email-address-visibility':
-        users.doc(userId).update({'email_address_visible': detail});
-        return true;
-      case 'profile-picture-visibility':
-        users.doc(userId).update({'profile_picture_visible': detail});
+      case 'profile_picture_visible':
+        users.doc(userId).update({'profile_picture_visible': visibile});
         return true;
       default:
         break;
