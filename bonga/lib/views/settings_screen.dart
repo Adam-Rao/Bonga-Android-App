@@ -330,7 +330,7 @@ class PrivacySettingsDialog extends StatelessWidget {
               width: 10.0,
             ),
             PrivacySettingsSwitch(
-              privacySetting: 'profile_picture_visible',
+              privacySetting: 'about_visible',
             ),
           ],
           MainAxisAlignment.spaceEvenly,
