@@ -8,7 +8,7 @@ class AppText extends StatelessWidget {
   final double _fontSize;
   final Color _colour;
 
-  const AppText(this._title, this._fontWeight, this._fontSize, this._colour);
+  AppText(this._title, this._fontWeight, this._fontSize, this._colour);
 
   @override
   Widget build(BuildContext context) {

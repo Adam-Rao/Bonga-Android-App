@@ -30,13 +30,16 @@ class LoginScreenForm extends StatelessWidget {
 
   void _loginUser(BuildContext context) async {
     bool userConnected = await kCheckConnectivity();
+    bool userLoggedIn;
 
     if (userConnected) {
-      Authentication.loginUser(
+      userLoggedIn = await Authentication.loginUser(
         _emailTextFieldController.text,
         _passwordTextFieldController.text,
       );
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      if (userLoggedIn) {
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      }
     } else {
       Fluttertoast.showToast(msg: 'No internet connection');
     }

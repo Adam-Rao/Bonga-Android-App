@@ -1,3 +1,4 @@
+import 'package:bonga/views/search_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -7,7 +8,6 @@ import 'inbox_screen.dart';
 import 'components/app_bar.dart';
 import 'components/text.dart';
 import 'components/popup_menu.dart';
-import 'components/text_field.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _searching = false;
-  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -37,11 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _clearSearchBar() {
-    _searchController.clear();
-    _searchStateController();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
               : Container(), //Prevents app from crashing
           PopUpMenu('HomeScreen'),
         ],
+        leading: _searching == false
+            ? Container()
+            : IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+              ),
         title: _searching == false
             ? AppText(
                 'Inbox',
@@ -66,14 +71,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 16.0,
                 kTextPrimaryColour,
               )
-            : CommonTextField(
-                fieldController: _searchController,
-                hintText: 'Search',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: _clearSearchBar,
-                  color: Colors.grey,
-                ),
+            : AppText(
+                'Search',
+                kFontWeightSemiBold,
+                16.0,
+                kTextPrimaryColour,
               ),
       ),
       body: _searching == false
@@ -81,16 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: InboxScreen(),
             )
-          : Search(),
-    );
-  }
-}
-
-class Search extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('No search results'),
+          : SearchScreen(),
     );
   }
 }

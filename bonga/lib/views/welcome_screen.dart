@@ -6,6 +6,7 @@ import 'package:bonga/views/components/text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'components/item_row.dart';
 
@@ -79,8 +80,22 @@ class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
     }
   }
 
-  void _resetPassword() {
-    Authentication.resetPassword(widget._forgotPasswordController.text);
+  void _resetPassword() async {
+    bool userConnected = await kCheckConnectivity();
+
+    if (userConnected) {
+      bool passwordResetSent = await Authentication.resetPassword(
+          widget._forgotPasswordController.text);
+
+      if (passwordResetSent) {
+        Fluttertoast.showToast(msg: 'Password reset link sent to email');
+      } else {
+        Fluttertoast.showToast(
+            msg: 'If you are a user, ensure valid email is provided');
+      }
+    } else {
+      Fluttertoast.showToast(msg: 'No internet connectivity');
+    }
   }
 
   @override
