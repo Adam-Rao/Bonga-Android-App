@@ -6,6 +6,7 @@ import 'package:bonga/views/components/item_row.dart';
 import 'package:bonga/views/components/profile_avatar.dart';
 import 'package:bonga/views/components/text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -19,19 +20,23 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Future<List<SearchResultModel>> _searchUsers(String searchText) async {
     List<SearchResultModel> userDetails = [];
+
+    String userID = FirebaseAuth.instance.currentUser!.uid;
+
     await FirebaseFirestore.instance
         .collection('users')
         .where('username', isEqualTo: searchText)
+        .where('userID', isNotEqualTo: userID)
         .get()
         .then((snapshot) => snapshot.docs.forEach((doc) {
               SearchResultModel userDetail = SearchResultModel(
-                doc['about'],
-                doc['about_visible'],
-                doc['profile_picture'],
-                doc['profile_picture_visible'],
-                doc['username'],
-              );
-
+                  doc['about'],
+                  doc['about_visible'],
+                  doc['profile_picture'],
+                  doc['profile_picture_visible'],
+                  doc['username'],
+                  doc['userID'],
+                  doc['isOnline']);
               userDetails.add(userDetail);
             }));
 
@@ -131,7 +136,12 @@ class _SearchScreenState extends State<SearchScreen> {
                             ItemRow(
                               [
                                 TextButton(
-                                  onPressed: null,
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/profile', arguments: {
+                                      'username': _searchResults[index].username,
+                                      'about': _searchResults[index].about
+                                    });
+                                  },
                                   child: AppText(
                                     'VIEW PROFILE',
                                     kFontWeightSemiBold,
@@ -140,7 +150,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: null,
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/chat', arguments: {
+                                      'username': _searchResults[index].username,
+                                      'isOnline': _searchResults[index].isOnline
+                                    });
+                                  },
                                   child: AppText(
                                     'CHAT',
                                     kFontWeightSemiBold,

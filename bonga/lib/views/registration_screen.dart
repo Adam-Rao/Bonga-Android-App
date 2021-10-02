@@ -49,6 +49,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
           _confirmPasswordTextFieldController.text,
         );
         if (userRegistered) {
+          Fluttertoast.showToast(msg: 'Email verification link sent');
           Navigator.pushNamedAndRemoveUntil(
               context, '/login', (route) => false);
         } else {

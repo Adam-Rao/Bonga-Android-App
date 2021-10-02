@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (user == null) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
-        kNormalPush(context, '/login');
+        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
       });
     }
   }

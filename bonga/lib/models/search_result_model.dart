@@ -4,6 +4,8 @@ class SearchResultModel {
   final String? profilePicture;
   final bool? profilePictureVisible;
   final String? username;
+  final String? userID;
+  final bool? isOnline;
 
   const SearchResultModel(
     this.about,
@@ -11,5 +13,7 @@ class SearchResultModel {
     this.profilePicture,
     this.profilePictureVisible,
     this.username,
+    this.userID,
+    this.isOnline
   );
 }

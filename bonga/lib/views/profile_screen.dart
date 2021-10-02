@@ -19,13 +19,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   final userId = FirebaseAuth.instance.currentUser!.uid;
   final _editAboutController = TextEditingController();
   final _editUsernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic>? _args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     return Scaffold(
       backgroundColor: kDefaultPrimaryColour,
       appBar: UniversalAppBar(
@@ -48,22 +49,213 @@ class _ProfileScreenState extends State<ProfileScreen> {
           kTextPrimaryColour,
         ),
       ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            Fluttertoast.showToast(msg: 'Error loading data');
-          } else if (snapshot.hasData) {
-            Map<String, dynamic> userDetails =
-                snapshot.data!.data() as Map<String, dynamic>;
+      body: _args == null
+          ? StreamBuilder<DocumentSnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(userId)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  Fluttertoast.showToast(msg: 'Error loading data');
+                } else if (snapshot.hasData) {
+                  Map<String, dynamic> userDetails =
+                      snapshot.data!.data() as Map<String, dynamic>;
 
-            _editUsernameController.text = userDetails['username'];
-            _editAboutController.text = userDetails['about'];
+                  _editUsernameController.text = userDetails['username'];
+                  _editAboutController.text = userDetails['about'];
 
-            return SingleChildScrollView(
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: AvatarContainer(
+                            MediaQuery.of(context).orientation ==
+                                    Orientation.portrait
+                                ? kSizeSetter(context, 'Width', 0.15)
+                                : kSizeSetter(context, 'Width', 0.1),
+                            false,
+                            null,
+                            'Profile Screen',
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            bottom: 10.0,
+                            left: kSizeSetter(context, 'Width', 0.2),
+                            right: kSizeSetter(context, 'Width', 0.2),
+                          ),
+                          child: MajorButton(
+                            onPress: null,
+                            buttonColour: kDarkPrimaryColour,
+                            buttonTextColour: kTextPrimaryColour,
+                            buttonText: 'SET PROFILE AVATAR',
+                            buttonWidth: kSizeSetter(context, 'Width', 0.6),
+                            buttonHeight: MediaQuery.of(context).orientation ==
+                                    Orientation.portrait
+                                ? kSizeSetter(context, 'Height', 0.06)
+                                : kSizeSetter(context, 'Height', 0.15),
+                          ),
+                        ),
+                        Divider(
+                          thickness: 2.0,
+                          color: kPrimaryDividerColour,
+                          indent: kSizeSetter(context, 'Width', 0.1),
+                          endIndent: kSizeSetter(context, 'Width', 0.1),
+                        ),
+                        Column(
+                          children: [
+                            GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: ItemRow(
+                                  [
+                                    Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                      size: 50.0,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        AppText(
+                                          'Username',
+                                          kFontWeightSemiBold,
+                                          13.0,
+                                          kTextPrimaryColour,
+                                        ),
+                                        SizedBox(height: 2.0),
+                                        AppText(
+                                          userDetails['username'],
+                                          kFontWeightSemiBold,
+                                          11.0,
+                                          kTextPrimaryColour,
+                                        ),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: null,
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: 30.0,
+                                      ),
+                                    ),
+                                  ],
+                                  MainAxisAlignment.spaceEvenly,
+                                ),
+                              ),
+                              onTap: () => kShowBottomSheet(
+                                context,
+                                MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? kSizeSetter(context, 'Height', 0.3)
+                                    : kSizeSetter(context, 'Height', 0.5),
+                                EditDetail(
+                                  detailController: _editUsernameController,
+                                  hintText: '',
+                                  detailHandler: () async {
+                                    bool usernameChanged =
+                                        await AccountManagement
+                                            .changeUserProfileDetail(
+                                                'username',
+                                                _editUsernameController.text,
+                                                userId);
+
+                                    if (usernameChanged) {
+                                      Fluttertoast.showToast(
+                                          msg: 'Username change successful');
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: 'Username change failed');
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: ItemRow(
+                                  [
+                                    Icon(
+                                      Icons.info,
+                                      color: Colors.white,
+                                      size: 50.0,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        AppText(
+                                          'About',
+                                          kFontWeightSemiBold,
+                                          13.0,
+                                          kTextPrimaryColour,
+                                        ),
+                                        SizedBox(height: 2.0),
+                                        AppText(
+                                          userDetails['about'],
+                                          kFontWeightSemiBold,
+                                          11.0,
+                                          kTextPrimaryColour,
+                                        ),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: null,
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: 30.0,
+                                      ),
+                                    ),
+                                  ],
+                                  MainAxisAlignment.spaceEvenly,
+                                ),
+                              ),
+                              onTap: () => kShowBottomSheet(
+                                context,
+                                MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? kSizeSetter(context, 'Height', 0.3)
+                                    : kSizeSetter(context, 'Height', 0.5),
+                                EditDetail(
+                                  detailController: _editAboutController,
+                                  hintText: '',
+                                  detailHandler: () async {
+                                    bool aboutChanged = await AccountManagement
+                                        .changeUserProfileDetail('about',
+                                            _editAboutController.text, userId);
+
+                                    if (aboutChanged) {
+                                      Fluttertoast.showToast(
+                                          msg: 'Username change successful');
+                                    } else {
+                                      Fluttertoast.showToast(
+                                          msg: 'Username change failed');
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            )
+          : SingleChildScrollView(
               child: Column(
                 children: [
                   Padding(
@@ -77,24 +269,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Profile Screen',
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      bottom: 10.0,
-                      left: kSizeSetter(context, 'Width', 0.2),
-                      right: kSizeSetter(context, 'Width', 0.2),
-                    ),
-                    child: MajorButton(
-                      onPress: null,
-                      buttonColour: kDarkPrimaryColour,
-                      buttonTextColour: kTextPrimaryColour,
-                      buttonText: 'SET PROFILE AVATAR',
-                      buttonWidth: kSizeSetter(context, 'Width', 0.6),
-                      buttonHeight: MediaQuery.of(context).orientation ==
-                              Orientation.portrait
-                          ? kSizeSetter(context, 'Height', 0.06)
-                          : kSizeSetter(context, 'Height', 0.15),
-                    ),
-                  ),
                   Divider(
                     thickness: 2.0,
                     color: kPrimaryDividerColour,
@@ -103,150 +277,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Column(
                     children: [
-                      GestureDetector(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: ItemRow(
-                            [
-                              Icon(
-                                Icons.person,
-                                color: Colors.white,
-                                size: 50.0,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AppText(
-                                    'Username',
-                                    kFontWeightSemiBold,
-                                    13.0,
-                                    kTextPrimaryColour,
-                                  ),
-                                  SizedBox(height: 2.0),
-                                  AppText(
-                                    userDetails['username'],
-                                    kFontWeightSemiBold,
-                                    11.0,
-                                    kTextPrimaryColour,
-                                  ),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: null,
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 30.0,
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: ItemRow(
+                          [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                AppText(
+                                  'Username',
+                                  kFontWeightSemiBold,
+                                  16.0,
+                                  kTextPrimaryColour,
                                 ),
-                              ),
-                            ],
-                            MainAxisAlignment.spaceEvenly,
-                          ),
-                        ),
-                        onTap: () => kShowBottomSheet(
-                          context,
-                          MediaQuery.of(context).orientation ==
-                                  Orientation.portrait
-                              ? kSizeSetter(context, 'Height', 0.3)
-                              : kSizeSetter(context, 'Height', 0.5),
-                          EditDetail(
-                            detailController: _editUsernameController,
-                            hintText: '',
-                            detailHandler: () async {
-                              bool usernameChanged = await AccountManagement
-                                  .changeUserProfileDetail('username',
-                                      _editUsernameController.text, userId);
-
-                              if (usernameChanged) {
-                                Fluttertoast.showToast(
-                                    msg: 'Username change successful');
-                              } else {
-                                Fluttertoast.showToast(
-                                    msg: 'Username change failed');
-                              }
-                            },
-                          ),
+                                SizedBox(height: 2.0),
+                                AppText(
+                                  _args['username'],
+                                  kFontWeightSemiBold,
+                                  14.0,
+                                  kTextPrimaryColour,
+                                ),
+                              ],
+                            ),
+                          ],
+                          MainAxisAlignment.center,
                         ),
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
-                      GestureDetector(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: ItemRow(
-                            [
-                              Icon(
-                                Icons.info,
-                                color: Colors.white,
-                                size: 50.0,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AppText(
-                                    'About',
-                                    kFontWeightSemiBold,
-                                    13.0,
-                                    kTextPrimaryColour,
-                                  ),
-                                  SizedBox(height: 2.0),
-                                  AppText(
-                                    userDetails['about'],
-                                    kFontWeightSemiBold,
-                                    11.0,
-                                    kTextPrimaryColour,
-                                  ),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: null,
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 30.0,
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: ItemRow(
+                          [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                AppText(
+                                  'About',
+                                  kFontWeightSemiBold,
+                                  16.0,
+                                  kTextPrimaryColour,
                                 ),
-                              ),
-                            ],
-                            MainAxisAlignment.spaceEvenly,
-                          ),
-                        ),
-                        onTap: () => kShowBottomSheet(
-                          context,
-                          MediaQuery.of(context).orientation ==
-                                  Orientation.portrait
-                              ? kSizeSetter(context, 'Height', 0.3)
-                              : kSizeSetter(context, 'Height', 0.5),
-                          EditDetail(
-                            detailController: _editAboutController,
-                            hintText: '',
-                            detailHandler: () async {
-                              bool aboutChanged = await AccountManagement
-                                  .changeUserProfileDetail('about',
-                                      _editAboutController.text, userId);
-
-                              if (aboutChanged) {
-                                Fluttertoast.showToast(
-                                    msg: 'Username change successful');
-                              } else {
-                                Fluttertoast.showToast(
-                                    msg: 'Username change failed');
-                              }
-                            },
-                          ),
+                                SizedBox(height: 2.0),
+                                AppText(
+                                  _args['about'],
+                                  kFontWeightSemiBold,
+                                  14.0,
+                                  kTextPrimaryColour,
+                                ),
+                              ],
+                            ),
+                          ],
+                          MainAxisAlignment.center,
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
+            ),
     );
   }
 }

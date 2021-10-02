@@ -14,6 +14,8 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic>? _args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return Scaffold(
       backgroundColor: kDefaultPrimaryColour,
       appBar: UniversalAppBar(
@@ -45,7 +47,7 @@ class ChatScreen extends StatelessWidget {
               width: 30.0,
             ),
             AppText(
-              'Some Other User',
+              _args != null ? _args['username'] : "Some User",
               kFontWeightSemiBold,
               13.0,
               kTextPrimaryColour,
@@ -54,10 +56,14 @@ class ChatScreen extends StatelessWidget {
               width: 10.0,
             ),
             Center(
-              child: Indicator(
-                size: 10.0,
-                unreadMessages: null,
-              ),
+              child: _args != null
+                  ? _args['isOnline'] == true
+                      ? Indicator(
+                          size: 10.0,
+                          unreadMessages: null,
+                        )
+                      : Container()
+                  : Container(),
             ),
           ],
         ),

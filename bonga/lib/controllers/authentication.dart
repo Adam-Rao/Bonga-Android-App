@@ -18,7 +18,6 @@ class Authentication {
         await user.sendEmailVerification();
         await AccountManagement.createUserDetailsUponAccountCreation(
             emailAddress, user.uid);
-        Fluttertoast.showToast(msg: 'Email verification link sent');
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
