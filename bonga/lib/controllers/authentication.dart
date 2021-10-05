@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:bonga/constants.dart';
 import 'package:bonga/controllers/account_management.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -132,6 +133,11 @@ class Authentication {
   }
 
   static Future<void> signOut() async {
+    String _userID = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_userID)
+        .update({'isOnline': false});
     await FirebaseAuth.instance.signOut();
   }
 }

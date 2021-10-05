@@ -7,26 +7,38 @@ class AccountManagement {
   static Future<void> createUserDetailsUponAccountCreation(
       String emailAddress, String userId) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference rooms = FirebaseFirestore.instance.collection('rooms');
+
+    int _generatedUsername = Random().nextInt(100000);
 
     Map<String, dynamic> userDetails = {
       "about": "Hey, I'm new here.",
       "about_visible": false,
+      "isOnline": false,
       "profile_picture": "",
       "profile_picture_visible": true,
-      "username": 'User ${Random().nextInt(100000)}'
+      "userID": userId,
+      "username": 'User $_generatedUsername'
     };
+
+    Map<String, String> roomDetails = {"room_name": 'User $_generatedUsername'};
 
     users.doc(userId).set(userDetails).catchError(
         (error) => Fluttertoast.showToast(msg: 'User details not saved.'));
+
+    rooms.doc(userId).set(roomDetails).catchError(
+        (error) => Fluttertoast.showToast(msg: 'something went wrong'));
   }
 
   static Future<bool> changeUserProfileDetail(
       String detailCategory, String detail, String userId) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference rooms = FirebaseFirestore.instance.collection('rooms');
 
     switch (detailCategory) {
       case 'username':
         users.doc(userId).update({'username': detail});
+        rooms.doc(userId).update({'room_name': detail});
         return true;
       case 'about':
         users.doc(userId).update({'about': detail});

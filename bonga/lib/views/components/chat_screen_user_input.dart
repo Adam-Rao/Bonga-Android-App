@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
 class UserInputComponent extends StatefulWidget {
-  const UserInputComponent({Key? key}) : super(key: key);
+  final String? authorID;
+  final String? receipientID;
+  const UserInputComponent({Key? key, this.authorID, this.receipientID})
+      : super(key: key);
 
   @override
   _UserInputComponentState createState() => _UserInputComponentState();
@@ -11,6 +15,16 @@ class UserInputComponent extends StatefulWidget {
 
 class _UserInputComponentState extends State<UserInputComponent> {
   TextEditingController _userInputController = TextEditingController();
+
+  void _sendMessage(String messageContent) async {
+    await FirebaseFirestore.instance
+        .collection('rooms/${widget.receipientID}/messages')
+        .add({
+      'author_id': widget.authorID,
+      'message_content': messageContent,
+      'receipient_id': widget.receipientID,
+    });
+  }
 
   @override
   void dispose() {
@@ -84,7 +98,9 @@ class _UserInputComponentState extends State<UserInputComponent> {
               child: FittedBox(
                 child: FloatingActionButton(
                   backgroundColor: kLightPrimaryColour,
-                  onPressed: null,
+                  onPressed: () {
+                    _sendMessage(_userInputController.text);
+                  },
                   child: Center(
                     child: Icon(
                       Icons.send,

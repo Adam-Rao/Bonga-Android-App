@@ -1,12 +1,12 @@
 import 'package:bonga/constants.dart';
-import 'package:bonga/controllers/mock_data_controller.dart';
-import 'package:bonga/models/message_item.dart';
 import 'package:bonga/views/components/app_bar.dart';
 import 'package:bonga/views/components/chat_screen_user_input.dart';
 import 'package:bonga/views/components/indicator.dart';
 import 'package:bonga/views/components/message_bubble.dart';
 import 'package:bonga/views/components/profile_avatar.dart';
 import 'package:bonga/views/components/text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -68,19 +68,22 @@ class ChatScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: ChatScreenBody(),
+      body: ChatScreenBody(args: _args),
     );
   }
 }
 
 class ChatScreenBody extends StatefulWidget {
-  const ChatScreenBody({Key? key}) : super(key: key);
+  final Map<String, dynamic>? args;
+  const ChatScreenBody({Key? key, this.args}) : super(key: key);
 
   @override
   _ChatScreenBodyState createState() => _ChatScreenBodyState();
 }
 
 class _ChatScreenBodyState extends State<ChatScreenBody> {
+  String _userID = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -88,45 +91,43 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: StreamBuilder<List<MessageItem>>(
-              stream:
-                  Stream.fromFuture(MockDataController.getMessages(context)),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('rooms/${widget.args!["userID"]}/messages')
+                  .where('author_id', isEqualTo: _userID)
+                  .where('receipient_id', isEqualTo: widget.args!['userID'])
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(
                     child: AppText(
-                      '${snapshot.error}',
+                      'Something went wrong',
                       kFontWeightSemiBold,
                       14.0,
                       kTextPrimaryColour,
                     ),
                   );
                 } else if (snapshot.hasData) {
-                  List<MessageItem> messages = snapshot.data!;
-
                   return ListView.separated(
-                    itemCount: messages.length,
+                    itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
+                      Map<String, dynamic> _message =
+                          snapshot.data!.docs[index] as Map<String, dynamic>;
                       return Row(
-                        mainAxisAlignment:
-                            messages[index].getMessageAuthor != "Some Username"
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.end,
+                        mainAxisAlignment: _message['author_id'] != _userID
+                            ? MainAxisAlignment.start
+                            : MainAxisAlignment.end,
                         children: [
                           Flexible(
                             child: Padding(
-                              padding: messages[index].getMessageAuthor !=
-                                      "Some Username"
+                              padding: _message['author_id'] != _userID
                                   ? EdgeInsets.only(
                                       right: kSizeSetter(context, 'Width', 0.3))
                                   : EdgeInsets.only(
                                       left: kSizeSetter(context, 'Width', 0.3)),
                               child: MessageBubble(
-                                messages[index].getMessageAuthor !=
-                                        "Some Username"
-                                    ? false
-                                    : true,
-                                messages[index].getMessageBody,
+                                _message['author_id'] != _userID ? false : true,
+                                _message['message_content'],
                               ),
                             ),
                           ),
@@ -151,7 +152,10 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
             ),
           ),
         ),
-        UserInputComponent(),
+        UserInputComponent(
+          authorID: _userID,
+          receipientID: widget.args!['userID'],
+        ),
       ],
     );
   }

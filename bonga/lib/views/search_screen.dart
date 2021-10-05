@@ -44,6 +44,12 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
+  void dispose() {
+    widget._searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kDefaultPrimaryColour,
@@ -137,10 +143,12 @@ class _SearchScreenState extends State<SearchScreen> {
                               [
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/profile', arguments: {
-                                      'username': _searchResults[index].username,
-                                      'about': _searchResults[index].about
-                                    });
+                                    Navigator.pushNamed(context, '/profile',
+                                        arguments: {
+                                          'username':
+                                              _searchResults[index].username,
+                                          'about': _searchResults[index].about
+                                        });
                                   },
                                   child: AppText(
                                     'VIEW PROFILE',
@@ -151,10 +159,15 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/chat', arguments: {
-                                      'username': _searchResults[index].username,
-                                      'isOnline': _searchResults[index].isOnline
-                                    });
+                                    Navigator.pushNamed(context, '/chat',
+                                        arguments: {
+                                          'username':
+                                              _searchResults[index].username,
+                                          'isOnline':
+                                              _searchResults[index].isOnline,
+                                          'userID':
+                                              _searchResults[index].userID,
+                                        });
                                   },
                                   child: AppText(
                                     'CHAT',
