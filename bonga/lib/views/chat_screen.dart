@@ -144,6 +144,15 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                   );
+                } if (snapshot.data!.docs.length == 0) {
+                  return Center(
+                    child: AppText(
+                      'No chats yet',
+                      kFontWeightSemiBold,
+                      12.0,
+                      kTextPrimaryColour,
+                    ),
+                  );
                 }
                 return Center(
                   child: CircularProgressIndicator(),
