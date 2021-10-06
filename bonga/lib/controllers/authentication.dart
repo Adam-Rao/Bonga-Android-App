@@ -137,7 +137,11 @@ class Authentication {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(_userID)
-        .update({'isOnline': false});
-    await FirebaseAuth.instance.signOut();
+        .update({'isOnline': false})
+        .then((value) => FirebaseAuth.instance.signOut())
+        .onError(
+          (error, stackTrace) =>
+              Fluttertoast.showToast(msg: 'Logout failed. Try Again'),
+        );
   }
 }
