@@ -100,6 +100,7 @@ class _UserInputComponentState extends State<UserInputComponent> {
                   backgroundColor: kLightPrimaryColour,
                   onPressed: () {
                     _sendMessage(_userInputController.text);
+                    _userInputController.clear();
                   },
                   child: Center(
                     child: Icon(

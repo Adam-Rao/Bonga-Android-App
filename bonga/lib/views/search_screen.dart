@@ -159,6 +159,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
+                                    print(_searchResults[index].userID);
                                     Navigator.pushNamed(context, '/chat',
                                         arguments: {
                                           'username':

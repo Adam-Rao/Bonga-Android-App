@@ -36,10 +36,10 @@ class ChatScreen extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                height: 30.0,
-                width: 30.0,
+                height: 45.0,
+                width: 45.0,
                 child: FittedBox(
-                  child: AvatarContainer(40.0, false, null, 'Chat Screen'),
+                  child: AvatarContainer(50.0, false, null, 'Chat Screen'),
                 ),
               ),
             ),
@@ -68,14 +68,14 @@ class ChatScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: ChatScreenBody(args: _args),
+      body: ChatScreenBody(recepientID: _args?['userID']),
     );
   }
 }
 
 class ChatScreenBody extends StatefulWidget {
-  final Map<String, dynamic>? args;
-  const ChatScreenBody({Key? key, this.args}) : super(key: key);
+  final String? recepientID;
+  const ChatScreenBody({Key? key, this.recepientID}) : super(key: key);
 
   @override
   _ChatScreenBodyState createState() => _ChatScreenBodyState();
@@ -85,6 +85,12 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
   String _userID = FirebaseAuth.instance.currentUser!.uid;
 
   @override
+  void initState() {
+    print("recepient id ${widget.recepientID}");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -92,11 +98,11 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('rooms/${widget.args!["userID"]}/messages')
+              stream: widget.recepientID != null ? FirebaseFirestore.instance
+                  .collection('rooms/${widget.recepientID}/messages')
                   .where('author_id', isEqualTo: _userID)
-                  .where('receipient_id', isEqualTo: widget.args!['userID'])
-                  .snapshots(),
+                  .where('receipient_id', isEqualTo: widget.recepientID)
+                  .snapshots() : null,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(
@@ -112,7 +118,7 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       Map<String, dynamic> _message =
-                          snapshot.data!.docs[index] as Map<String, dynamic>;
+                          snapshot.data!.docs[index].data() as Map<String, dynamic>;
                       return Row(
                         mainAxisAlignment: _message['author_id'] != _userID
                             ? MainAxisAlignment.start
@@ -144,7 +150,8 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                   );
-                } if (snapshot.data!.docs.length == 0) {
+                }
+                if (snapshot.data!.docs.length == 0) {
                   return Center(
                     child: AppText(
                       'No chats yet',
@@ -163,7 +170,7 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
         ),
         UserInputComponent(
           authorID: _userID,
-          receipientID: widget.args!['userID'],
+          receipientID: widget.recepientID,
         ),
       ],
     );
