@@ -39,7 +39,10 @@ class ChatScreen extends StatelessWidget {
                 height: 45.0,
                 width: 45.0,
                 child: FittedBox(
-                  child: AvatarContainer(50.0, false, null, 'Chat Screen'),
+                  child: _args?['profile_picture'] == "" ||
+                          _args?['profile_picture_visible'] == false
+                      ? AvatarContainer(50.0, false, null, 'Chat Screen')
+                      : null,
                 ),
               ),
             ),
@@ -85,87 +88,92 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
   String _userID = FirebaseAuth.instance.currentUser!.uid;
 
   @override
-  void initState() {
-    print("recepient id ${widget.recepientID}");
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: StreamBuilder<QuerySnapshot>(
-              stream: widget.recepientID != null ? FirebaseFirestore.instance
-                  .collection('rooms/${widget.recepientID}/messages')
-                  .where('author_id', isEqualTo: _userID)
-                  .where('receipient_id', isEqualTo: widget.recepientID)
-                  .snapshots() : null,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: AppText(
-                      'Something went wrong',
-                      kFontWeightSemiBold,
-                      14.0,
-                      kTextPrimaryColour,
-                    ),
-                  );
-                } else if (snapshot.hasData) {
-                  return ListView.separated(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      Map<String, dynamic> _message =
-                          snapshot.data!.docs[index].data() as Map<String, dynamic>;
-                      return Row(
-                        mainAxisAlignment: _message['author_id'] != _userID
-                            ? MainAxisAlignment.start
-                            : MainAxisAlignment.end,
-                        children: [
-                          Flexible(
-                            child: Padding(
-                              padding: _message['author_id'] != _userID
-                                  ? EdgeInsets.only(
-                                      right: kSizeSetter(context, 'Width', 0.3))
-                                  : EdgeInsets.only(
-                                      left: kSizeSetter(context, 'Width', 0.3)),
-                              child: MessageBubble(
-                                _message['author_id'] != _userID ? false : true,
-                                _message['message_content'],
-                              ),
-                            ),
+            child: widget.recepientID == null
+                ? Center(
+                    //prevents crash that occurs when recepient ID isn't initialized yet
+                    child: CircularProgressIndicator(),
+                  )
+                : StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('rooms/${widget.recepientID}/messages')
+                        .where('author_id', isEqualTo: _userID)
+                        .where('receipient_id', isEqualTo: widget.recepientID)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: AppText(
+                            'Something went wrong',
+                            kFontWeightSemiBold,
+                            14.0,
+                            kTextPrimaryColour,
                           ),
-                          SizedBox(
-                            height: 5.0,
+                        );
+                      } else if (snapshot.hasData) {
+                        return ListView.separated(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            Map<String, dynamic> _message =
+                                snapshot.data!.docs[index].data()
+                                    as Map<String, dynamic>;
+                            return Row(
+                              mainAxisAlignment:
+                                  _message['author_id'] != _userID
+                                      ? MainAxisAlignment.start
+                                      : MainAxisAlignment.end,
+                              children: [
+                                Flexible(
+                                  child: Padding(
+                                    padding: _message['author_id'] != _userID
+                                        ? EdgeInsets.only(
+                                            right: kSizeSetter(
+                                                context, 'Width', 0.3))
+                                        : EdgeInsets.only(
+                                            left: kSizeSetter(
+                                                context, 'Width', 0.3)),
+                                    child: MessageBubble(
+                                      _message['author_id'] != _userID
+                                          ? false
+                                          : true,
+                                      _message['message_content'],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5.0,
+                                ),
+                              ],
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Divider(
+                            color: Colors.transparent,
                           ),
-                        ],
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                        );
+                      }
+                      if (snapshot.data!.docs.length == 0) {
+                        return Center(
+                          child: AppText(
+                            'No chats yet',
+                            kFontWeightSemiBold,
+                            12.0,
+                            kTextPrimaryColour,
+                          ),
+                        );
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        Divider(
-                      color: Colors.transparent,
-                    ),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                  );
-                }
-                if (snapshot.data!.docs.length == 0) {
-                  return Center(
-                    child: AppText(
-                      'No chats yet',
-                      kFontWeightSemiBold,
-                      12.0,
-                      kTextPrimaryColour,
-                    ),
-                  );
-                }
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),
+                  ),
           ),
         ),
         UserInputComponent(

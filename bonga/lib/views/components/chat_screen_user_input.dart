@@ -64,20 +64,6 @@ class _UserInputComponentState extends State<UserInputComponent> {
                     fontWeight: kFontWeightRegular,
                     color: Color(0X40000000),
                   ),
-                  prefixIcon: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.emoji_emotions_rounded,
-                      color: Color(0X40000000),
-                    ),
-                  ),
-                  suffixIcon: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.add,
-                      color: Color(0X40000000),
-                    ),
-                  ),
                 ),
                 keyboardType: TextInputType.multiline,
                 maxLines: null,

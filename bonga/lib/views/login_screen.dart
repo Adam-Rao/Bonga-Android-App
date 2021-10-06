@@ -67,50 +67,54 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
 
   @override
   Widget build(BuildContext context) {
-    return ModalProgressHUD(
-      inAsyncCall: _logginIn,
-      child: Form(
-        key: _loginFormKey,
-        child: Column(
-          children: [
-            AuthFormField(
-              textFieldController: _emailTextFieldController,
-              hintText: 'Email Address',
-              emptyFieldValidatorError: kEmptyEmailValidatorError,
-              invalidFieldValidatorError: kInvalidEmailValidatorError,
-              keyboardType: TextInputType.emailAddress,
-              isPasswordField: false,
+    return Expanded(
+      child: ModalProgressHUD(
+        inAsyncCall: _logginIn,
+        child: Container(
+          child: Form(
+            key: _loginFormKey,
+            child: Column(
+              children: [
+                AuthFormField(
+                  textFieldController: _emailTextFieldController,
+                  hintText: 'Email Address',
+                  emptyFieldValidatorError: kEmptyEmailValidatorError,
+                  invalidFieldValidatorError: kInvalidEmailValidatorError,
+                  keyboardType: TextInputType.emailAddress,
+                  isPasswordField: false,
+                ),
+                SizedBox(
+                  height: kSizeSetter(context, 'Height', 0.05),
+                ),
+                AuthFormField(
+                  textFieldController: _passwordTextFieldController,
+                  hintText: 'Password',
+                  emptyFieldValidatorError: kEmptyPasswordValidatorError,
+                  invalidFieldValidatorError: kInvalidPasswordValidatorError,
+                  keyboardType: TextInputType.visiblePassword,
+                  isPasswordField: true,
+                ),
+                SizedBox(
+                  height: kSizeSetter(context, 'Height', 0.05),
+                ),
+                MajorButton(
+                  onPress: () {
+                    if (_loginFormKey.currentState!.validate()) {
+                      _loginUser(context);
+                    }
+                  },
+                  buttonColour: kDarkPrimaryColour,
+                  buttonTextColour: kTextPrimaryColour,
+                  buttonText: 'LOGIN',
+                  buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+                  buttonHeight:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                          : kSizeSetter(context, 'Height', 0.15),
+                ),
+              ],
             ),
-            SizedBox(
-              height: kSizeSetter(context, 'Height', 0.05),
-            ),
-            AuthFormField(
-              textFieldController: _passwordTextFieldController,
-              hintText: 'Password',
-              emptyFieldValidatorError: kEmptyPasswordValidatorError,
-              invalidFieldValidatorError: kInvalidPasswordValidatorError,
-              keyboardType: TextInputType.visiblePassword,
-              isPasswordField: true,
-            ),
-            SizedBox(
-              height: kSizeSetter(context, 'Height', 0.05),
-            ),
-            MajorButton(
-              onPress: () {
-                if (_loginFormKey.currentState!.validate()) {
-                  _loginUser(context);
-                }
-              },
-              buttonColour: kDarkPrimaryColour,
-              buttonTextColour: kTextPrimaryColour,
-              buttonText: 'LOGIN',
-              buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
-              buttonHeight:
-                  MediaQuery.of(context).orientation == Orientation.portrait
-                      ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                      : kSizeSetter(context, 'Height', 0.15),
-            ),
-          ],
+          ),
         ),
       ),
     );

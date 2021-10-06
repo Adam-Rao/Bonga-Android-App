@@ -18,10 +18,16 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   List<SearchResultModel> _searchResults = [];
 
+  bool _searching = false;
+
   Future<List<SearchResultModel>> _searchUsers(String searchText) async {
     List<SearchResultModel> userDetails = [];
 
     String userID = FirebaseAuth.instance.currentUser!.uid;
+
+    setState(() {
+      _searching = true;
+    });
 
     await FirebaseFirestore.instance
         .collection('users')
@@ -39,6 +45,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   doc['isOnline']);
               userDetails.add(userDetail);
             }));
+
+    setState(() {
+      _searching = false;
+    });
 
     return userDetails;
   }
@@ -107,12 +117,16 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           _searchResults.length == 0
               ? Center(
-                  child: AppText(
-                    'No Search Results',
-                    kFontWeightSemiBold,
-                    14.0,
-                    kTextPrimaryColour,
-                  ),
+                  child: _searching == true
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : AppText(
+                          'No Search Results',
+                          kFontWeightSemiBold,
+                          14.0,
+                          kTextPrimaryColour,
+                        ),
                 )
               : ListView.separated(
                   itemCount: _searchResults.length,
@@ -147,7 +161,13 @@ class _SearchScreenState extends State<SearchScreen> {
                                         arguments: {
                                           'username':
                                               _searchResults[index].username,
-                                          'about': _searchResults[index].about
+                                          'about': _searchResults[index].about,
+                                          'profile_picture': _searchResults[index].profilePicture,
+                                          'profile_picture_visible':
+                                              _searchResults[index]
+                                                  .profilePictureVisible,
+                                          'about_visible': _searchResults[index]
+                                              .aboutVisible,
                                         });
                                   },
                                   child: AppText(
@@ -159,7 +179,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    print(_searchResults[index].userID);
                                     Navigator.pushNamed(context, '/chat',
                                         arguments: {
                                           'username':
@@ -168,6 +187,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                               _searchResults[index].isOnline,
                                           'userID':
                                               _searchResults[index].userID,
+                                          'profile_picture_visible':
+                                              _searchResults[index]
+                                                  .profilePictureVisible,
+                                          'profile_picture':
+                                              _searchResults[index]
+                                                  .profilePicture,
                                         });
                                   },
                                   child: AppText(

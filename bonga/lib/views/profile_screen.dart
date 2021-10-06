@@ -260,14 +260,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(30.0),
-                    child: AvatarContainer(
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? kSizeSetter(context, 'Width', 0.15)
-                          : kSizeSetter(context, 'Width', 0.1),
-                      false,
-                      null,
-                      'Profile Screen',
-                    ),
+                    child: _args['profile_picture'] == '' ||
+                            _args['profile_picture_visible'] == false
+                        ? AvatarContainer(
+                            MediaQuery.of(context).orientation ==
+                                    Orientation.portrait
+                                ? kSizeSetter(context, 'Width', 0.15)
+                                : kSizeSetter(context, 'Width', 0.1),
+                            false,
+                            null,
+                            'Profile Screen',
+                          )
+                        : null,
                   ),
                   Divider(
                     thickness: 2.0,
@@ -308,7 +312,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: ItemRow(
+                        child: _args['about_visible'] == true ? ItemRow(
                           [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -330,7 +334,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ],
                           MainAxisAlignment.center,
-                        ),
+                        ) : null,
                       ),
                     ],
                   ),
