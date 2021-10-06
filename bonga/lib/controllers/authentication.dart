@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:bonga/constants.dart';
 import 'package:bonga/controllers/account_management.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,7 +19,6 @@ class Authentication {
         await user.sendEmailVerification();
         await AccountManagement.createUserDetailsUponAccountCreation(
             emailAddress, user.uid);
-        Fluttertoast.showToast(msg: 'Email verification link sent');
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -133,6 +133,15 @@ class Authentication {
   }
 
   static Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    String _userID = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_userID)
+        .update({'isOnline': false})
+        .then((value) => FirebaseAuth.instance.signOut())
+        .onError(
+          (error, stackTrace) =>
+              Fluttertoast.showToast(msg: 'Logout failed. Try Again'),
+        );
   }
 }
