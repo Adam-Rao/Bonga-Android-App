@@ -1,5 +1,7 @@
 import 'package:bonga/constants.dart';
 import 'package:bonga/controllers/authentication.dart';
+import 'package:bonga/handlers/connectivity_handler.dart';
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -38,7 +40,7 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
   bool _logginIn = false;
 
   void _loginUser(BuildContext context) async {
-    bool userConnected = await kCheckConnectivity();
+    bool userConnected = await checkConnectivity();
     bool userLoggedIn;
 
     setState(() {
@@ -79,7 +81,7 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
             isPasswordField: false,
           ),
           SizedBox(
-            height: kSizeSetter(context, 'Height', 0.05),
+            height: sizeSetter(context, 'Height', 0.05),
           ),
           AuthFormField(
             textFieldController: _passwordTextFieldController,
@@ -90,7 +92,7 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
             isPasswordField: true,
           ),
           SizedBox(
-            height: kSizeSetter(context, 'Height', 0.05),
+            height: sizeSetter(context, 'Height', 0.05),
           ),
           MajorButton(
             onPress: () {
@@ -101,11 +103,11 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
             buttonColour: kDarkPrimaryColour,
             buttonTextColour: kTextPrimaryColour,
             buttonText: 'LOGIN',
-            buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+            buttonWidth: sizeSetter(context, 'Width', kAuthButtonWidthRatio),
             buttonHeight:
                 MediaQuery.of(context).orientation == Orientation.portrait
-                    ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                    : kSizeSetter(context, 'Height', 0.15),
+                    ? sizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                    : sizeSetter(context, 'Height', 0.15),
           ),
           _logginIn == true
               ? Center(

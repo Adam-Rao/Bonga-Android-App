@@ -1,4 +1,5 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:bonga/views/components/app_bar.dart';
 import 'package:bonga/views/components/chat_screen_user_input.dart';
 import 'package:bonga/views/components/indicator.dart';
@@ -138,10 +139,10 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                                   child: Padding(
                                     padding: _message['author_id'] != _userID
                                         ? EdgeInsets.only(
-                                            right: kSizeSetter(
+                                            right: sizeSetter(
                                                 context, 'Width', 0.3))
                                         : EdgeInsets.only(
-                                            left: kSizeSetter(
+                                            left: sizeSetter(
                                                 context, 'Width', 0.3)),
                                     child: MessageBubble(
                                       _message['author_id'] != _userID

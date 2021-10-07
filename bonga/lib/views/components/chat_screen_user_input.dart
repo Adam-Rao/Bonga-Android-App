@@ -1,3 +1,4 @@
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ class _UserInputComponentState extends State<UserInputComponent> {
   Widget build(BuildContext context) {
     return Container(
       color: kDarkPrimaryColour,
-      width: kSizeSetter(context, 'Width', 1.0),
+      width: sizeSetter(context, 'Width', 1.0),
       child: Row(
         children: [
           Expanded(

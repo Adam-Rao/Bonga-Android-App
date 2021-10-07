@@ -1,5 +1,7 @@
 import 'package:bonga/constants.dart';
 import 'package:bonga/controllers/authentication.dart';
+import 'package:bonga/handlers/connectivity_handler.dart';
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -42,7 +44,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
         _confirmPasswordTextFieldController.text) {
       Fluttertoast.showToast(msg: 'Passwords not matching');
     } else {
-      bool userConnected = await kCheckConnectivity();
+      bool userConnected = await checkConnectivity();
       bool userRegistered;
 
       setState(() {
@@ -83,7 +85,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
       child: Column(
         children: [
           SizedBox(
-            height: kSizeSetter(context, 'Height', 0.1),
+            height: sizeSetter(context, 'Height', 0.1),
           ),
           AuthFormField(
             textFieldController: _emailTextFieldController,
@@ -94,7 +96,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
             isPasswordField: false,
           ),
           SizedBox(
-            height: kSizeSetter(context, 'Height', 0.05),
+            height: sizeSetter(context, 'Height', 0.05),
           ),
           AuthFormField(
             textFieldController: _passwordTextFieldController,
@@ -105,7 +107,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
             isPasswordField: true,
           ),
           SizedBox(
-            height: kSizeSetter(context, 'Height', 0.05),
+            height: sizeSetter(context, 'Height', 0.05),
           ),
           AuthFormField(
             textFieldController: _confirmPasswordTextFieldController,
@@ -116,7 +118,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
             isPasswordField: true,
           ),
           SizedBox(
-            height: kSizeSetter(context, 'Height', 0.05),
+            height: sizeSetter(context, 'Height', 0.05),
           ),
           MajorButton(
             onPress: () {
@@ -127,11 +129,11 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
             buttonColour: kDarkPrimaryColour,
             buttonTextColour: kTextPrimaryColour,
             buttonText: 'REGISTER',
-            buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+            buttonWidth: sizeSetter(context, 'Width', kAuthButtonWidthRatio),
             buttonHeight:
                 MediaQuery.of(context).orientation == Orientation.portrait
-                    ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                    : kSizeSetter(context, 'Height', 0.15),
+                    ? sizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                    : sizeSetter(context, 'Height', 0.15),
           ),
           _registering == true
               ? Center(

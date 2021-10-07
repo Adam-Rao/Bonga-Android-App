@@ -1,5 +1,6 @@
 import 'package:bonga/constants.dart';
 import 'package:bonga/controllers/account_management.dart';
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:bonga/handlers/upload_image_handler.dart';
 import 'package:bonga/views/components/app_bar.dart';
 import 'package:bonga/views/components/popup_menu.dart';
@@ -76,8 +77,8 @@ class SearchedUserProfileScreen extends StatelessWidget {
                   ? AvatarContainer(
                       MediaQuery.of(context).orientation ==
                               Orientation.portrait
-                          ? kSizeSetter(context, 'Width', 0.15)
-                          : kSizeSetter(context, 'Width', 0.1),
+                          ? sizeSetter(context, 'Width', 0.15)
+                          : sizeSetter(context, 'Width', 0.1),
                       false,
                       null,
                       'Profile Screen',
@@ -85,8 +86,8 @@ class SearchedUserProfileScreen extends StatelessWidget {
                   : AvatarContainer(
                       MediaQuery.of(context).orientation ==
                               Orientation.portrait
-                          ? kSizeSetter(context, 'Width', 0.15)
-                          : kSizeSetter(context, 'Width', 0.1),
+                          ? sizeSetter(context, 'Width', 0.15)
+                          : sizeSetter(context, 'Width', 0.1),
                       true,
                       _args!['profile_picture'],
                       'Profile Screen',
@@ -95,8 +96,8 @@ class SearchedUserProfileScreen extends StatelessWidget {
             Divider(
               thickness: 2.0,
               color: kPrimaryDividerColour,
-              indent: kSizeSetter(context, 'Width', 0.1),
-              endIndent: kSizeSetter(context, 'Width', 0.1),
+              indent: sizeSetter(context, 'Width', 0.1),
+              endIndent: sizeSetter(context, 'Width', 0.1),
             ),
             Column(
               children: [
@@ -202,12 +203,12 @@ class UserProfileScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(30.0),
-                  child: userDetails['profile_picture'] != ""
+                  child: userDetails['profile_picture'] == ""
                       ? AvatarContainer(
                           MediaQuery.of(context).orientation ==
                                   Orientation.portrait
-                              ? kSizeSetter(context, 'Width', 0.15)
-                              : kSizeSetter(context, 'Width', 0.1),
+                              ? sizeSetter(context, 'Width', 0.2)
+                              : sizeSetter(context, 'Width', 0.1),
                           false,
                           null,
                           'Profile Screen',
@@ -215,8 +216,8 @@ class UserProfileScreen extends StatelessWidget {
                       : AvatarContainer(
                           MediaQuery.of(context).orientation ==
                                   Orientation.portrait
-                              ? kSizeSetter(context, 'Width', 0.15)
-                              : kSizeSetter(context, 'Width', 0.1),
+                              ? sizeSetter(context, 'Width', 0.15)
+                              : sizeSetter(context, 'Width', 0.1),
                           true,
                           userDetails['profile_picture'].toString(),
                           'Profile Screen',
@@ -225,8 +226,8 @@ class UserProfileScreen extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(
                     bottom: 10.0,
-                    left: kSizeSetter(context, 'Width', 0.2),
-                    right: kSizeSetter(context, 'Width', 0.2),
+                    left: sizeSetter(context, 'Width', 0.2),
+                    right: sizeSetter(context, 'Width', 0.2),
                   ),
                   child: MajorButton(
                     onPress: () async {
@@ -235,18 +236,18 @@ class UserProfileScreen extends StatelessWidget {
                     buttonColour: kDarkPrimaryColour,
                     buttonTextColour: kTextPrimaryColour,
                     buttonText: 'SET PROFILE AVATAR',
-                    buttonWidth: kSizeSetter(context, 'Width', 0.6),
+                    buttonWidth: sizeSetter(context, 'Width', 0.6),
                     buttonHeight: MediaQuery.of(context).orientation ==
                             Orientation.portrait
-                        ? kSizeSetter(context, 'Height', 0.06)
-                        : kSizeSetter(context, 'Height', 0.15),
+                        ? sizeSetter(context, 'Height', 0.06)
+                        : sizeSetter(context, 'Height', 0.15),
                   ),
                 ),
                 Divider(
                   thickness: 2.0,
                   color: kPrimaryDividerColour,
-                  indent: kSizeSetter(context, 'Width', 0.1),
-                  endIndent: kSizeSetter(context, 'Width', 0.1),
+                  indent: sizeSetter(context, 'Width', 0.1),
+                  endIndent: sizeSetter(context, 'Width', 0.1),
                 ),
                 Column(
                   children: [
@@ -294,8 +295,8 @@ class UserProfileScreen extends StatelessWidget {
                         context,
                         MediaQuery.of(context).orientation ==
                                 Orientation.portrait
-                            ? kSizeSetter(context, 'Height', 0.3)
-                            : kSizeSetter(context, 'Height', 0.5),
+                            ? sizeSetter(context, 'Height', 0.3)
+                            : sizeSetter(context, 'Height', 0.5),
                         EditDetail(
                           detailController: _editUsernameController,
                           hintText: '',
@@ -364,8 +365,8 @@ class UserProfileScreen extends StatelessWidget {
                         context,
                         MediaQuery.of(context).orientation ==
                                 Orientation.portrait
-                            ? kSizeSetter(context, 'Height', 0.3)
-                            : kSizeSetter(context, 'Height', 0.5),
+                            ? sizeSetter(context, 'Height', 0.3)
+                            : sizeSetter(context, 'Height', 0.5),
                         EditDetail(
                           detailController: _editAboutController,
                           hintText: '',
