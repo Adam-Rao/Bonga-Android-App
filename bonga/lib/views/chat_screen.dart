@@ -42,7 +42,12 @@ class ChatScreen extends StatelessWidget {
                   child: _args?['profile_picture'] == "" ||
                           _args?['profile_picture_visible'] == false
                       ? AvatarContainer(50.0, false, null, 'Chat Screen')
-                      : null,
+                      : AvatarContainer(
+                          50.0,
+                          true,
+                          _args?['profile_picture'],
+                          'Chat Screen',
+                        ),
                 ),
               ),
             ),
@@ -117,6 +122,7 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                         );
                       } else if (snapshot.hasData) {
                         return ListView.separated(
+                          reverse: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             Map<String, dynamic> _message =

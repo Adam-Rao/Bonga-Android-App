@@ -27,7 +27,7 @@ class AvatarContainer extends StatelessWidget {
             )
           : null,
       radius: _radius,
-      foregroundImage: _isImage == false ? null : NetworkImage(_imgUrl!),
+      backgroundImage: _isImage == false ? null : NetworkImage(_imgUrl!),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:bonga/constants.dart';
 import 'package:bonga/controllers/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'components/form_field.dart';
 import 'components/major_button.dart';
@@ -67,55 +66,53 @@ class _LoginScreenFormState extends State<LoginScreenForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ModalProgressHUD(
-        inAsyncCall: _logginIn,
-        child: Container(
-          child: Form(
-            key: _loginFormKey,
-            child: Column(
-              children: [
-                AuthFormField(
-                  textFieldController: _emailTextFieldController,
-                  hintText: 'Email Address',
-                  emptyFieldValidatorError: kEmptyEmailValidatorError,
-                  invalidFieldValidatorError: kInvalidEmailValidatorError,
-                  keyboardType: TextInputType.emailAddress,
-                  isPasswordField: false,
-                ),
-                SizedBox(
-                  height: kSizeSetter(context, 'Height', 0.05),
-                ),
-                AuthFormField(
-                  textFieldController: _passwordTextFieldController,
-                  hintText: 'Password',
-                  emptyFieldValidatorError: kEmptyPasswordValidatorError,
-                  invalidFieldValidatorError: kInvalidPasswordValidatorError,
-                  keyboardType: TextInputType.visiblePassword,
-                  isPasswordField: true,
-                ),
-                SizedBox(
-                  height: kSizeSetter(context, 'Height', 0.05),
-                ),
-                MajorButton(
-                  onPress: () {
-                    if (_loginFormKey.currentState!.validate()) {
-                      _loginUser(context);
-                    }
-                  },
-                  buttonColour: kDarkPrimaryColour,
-                  buttonTextColour: kTextPrimaryColour,
-                  buttonText: 'LOGIN',
-                  buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
-                  buttonHeight:
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                          : kSizeSetter(context, 'Height', 0.15),
-                ),
-              ],
-            ),
+    return Form(
+      key: _loginFormKey,
+      child: Column(
+        children: [
+          AuthFormField(
+            textFieldController: _emailTextFieldController,
+            hintText: 'Email Address',
+            emptyFieldValidatorError: kEmptyEmailValidatorError,
+            invalidFieldValidatorError: kInvalidEmailValidatorError,
+            keyboardType: TextInputType.emailAddress,
+            isPasswordField: false,
           ),
-        ),
+          SizedBox(
+            height: kSizeSetter(context, 'Height', 0.05),
+          ),
+          AuthFormField(
+            textFieldController: _passwordTextFieldController,
+            hintText: 'Password',
+            emptyFieldValidatorError: kEmptyPasswordValidatorError,
+            invalidFieldValidatorError: kInvalidPasswordValidatorError,
+            keyboardType: TextInputType.visiblePassword,
+            isPasswordField: true,
+          ),
+          SizedBox(
+            height: kSizeSetter(context, 'Height', 0.05),
+          ),
+          MajorButton(
+            onPress: () {
+              if (_loginFormKey.currentState!.validate()) {
+                _loginUser(context);
+              }
+            },
+            buttonColour: kDarkPrimaryColour,
+            buttonTextColour: kTextPrimaryColour,
+            buttonText: 'LOGIN',
+            buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+            buttonHeight:
+                MediaQuery.of(context).orientation == Orientation.portrait
+                    ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                    : kSizeSetter(context, 'Height', 0.15),
+          ),
+          _logginIn == true
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container()
+        ],
       ),
     );
   }
