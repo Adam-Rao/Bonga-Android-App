@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
 import 'components/app_bar.dart';
@@ -17,6 +18,16 @@ import 'components/profile_avatar.dart';
 import 'components/text.dart';
 
 class SettingsScreen extends StatelessWidget {
+  void _openUrl() async {
+    print("Pressed");
+    const url = 'https://bonga-terms-privacy.herokuapp.com/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Fluttertoast.showToast(msg: 'Cannot open webpage');
+    }
+  }
+
   void _settingsListController(BuildContext context, int index) {
     switch (index) {
       case 0:
@@ -38,6 +49,7 @@ class SettingsScreen extends StatelessWidget {
         );
         break;
       case 2:
+        _openUrl();
         break;
       case 3:
         kShowBottomSheet(
