@@ -1,10 +1,12 @@
 import 'package:bonga/controllers/account_management.dart';
 import 'package:bonga/controllers/authentication.dart';
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
 import 'components/app_bar.dart';
@@ -16,14 +18,24 @@ import 'components/profile_avatar.dart';
 import 'components/text.dart';
 
 class SettingsScreen extends StatelessWidget {
+  void _openUrl() async {
+    print("Pressed");
+    const url = 'https://bonga-terms-privacy.herokuapp.com/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Fluttertoast.showToast(msg: 'Cannot open webpage');
+    }
+  }
+
   void _settingsListController(BuildContext context, int index) {
     switch (index) {
       case 0:
         kShowBottomSheet(
           context,
           MediaQuery.of(context).orientation == Orientation.portrait
-              ? kSizeSetter(context, 'Height', 0.5)
-              : kSizeSetter(context, 'Height', 0.8),
+              ? sizeSetter(context, 'Height', 0.5)
+              : sizeSetter(context, 'Height', 0.8),
           ChangePasswordForm(),
         );
         break;
@@ -31,17 +43,18 @@ class SettingsScreen extends StatelessWidget {
         kShowBottomSheet(
           context,
           MediaQuery.of(context).orientation == Orientation.portrait
-              ? kSizeSetter(context, 'Height', 0.4)
-              : kSizeSetter(context, 'Height', 0.6),
+              ? sizeSetter(context, 'Height', 0.4)
+              : sizeSetter(context, 'Height', 0.6),
           DeleteAccountDialog(),
         );
         break;
       case 2:
+        _openUrl();
         break;
       case 3:
         kShowBottomSheet(
           context,
-          kSizeSetter(context, 'Height', 0.4),
+          sizeSetter(context, 'Height', 0.4),
           PrivacySettingsDialog(),
         );
         break;
@@ -76,7 +89,8 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future:
+            FirebaseFirestore.instance.collection('users').doc(userId).get(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             Fluttertoast.showToast(msg: 'Failed loading user data');
@@ -84,7 +98,6 @@ class SettingsScreen extends StatelessWidget {
               child: Text('Error'),
             );
           } else if (snapshot.hasData) {
-            print(snapshot.data!.data());
             Map<String, dynamic> userDetail =
                 snapshot.data!.data() as Map<String, dynamic>;
 
@@ -96,12 +109,23 @@ class SettingsScreen extends StatelessWidget {
                     child: Container(
                       height: MediaQuery.of(context).orientation ==
                               Orientation.portrait
-                          ? kSizeSetter(context, 'Height', 0.2)
-                          : kSizeSetter(context, 'Height', 0.3),
+                          ? sizeSetter(context, 'Height', 0.2)
+                          : sizeSetter(context, 'Height', 0.3),
                       child: ItemRow(
                         [
-                          AvatarContainer(kSizeSetter(context, 'Width', 0.1),
-                              false, null, 'Settings Screen'),
+                          userDetail['profile_picture'] == ""
+                              ? AvatarContainer(
+                                  sizeSetter(context, 'Width', 0.1),
+                                  false,
+                                  null,
+                                  'Settings Screen',
+                                )
+                              : AvatarContainer(
+                                  sizeSetter(context, 'Width', 0.1),
+                                  true,
+                                  userDetail['profile_picture'],
+                                  'Settings Screen',
+                                ),
                           SizedBox(
                             width: 20.0,
                           ),
@@ -132,8 +156,8 @@ class SettingsScreen extends StatelessWidget {
                   Divider(
                     thickness: 2.0,
                     color: kPrimaryDividerColour,
-                    indent: kSizeSetter(context, 'Width', 0.1),
-                    endIndent: kSizeSetter(context, 'Width', 0.1),
+                    indent: sizeSetter(context, 'Width', 0.1),
+                    endIndent: sizeSetter(context, 'Width', 0.1),
                   ),
                   ListView.separated(
                     padding: EdgeInsets.all(20.0),
@@ -200,7 +224,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               isPasswordField: true,
             ),
             SizedBox(
-              height: kSizeSetter(context, 'Height', 0.05),
+              height: sizeSetter(context, 'Height', 0.05),
             ),
             AuthFormField(
               textFieldController: _confirmNewPasswordController,
@@ -211,7 +235,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               isPasswordField: true,
             ),
             SizedBox(
-              height: kSizeSetter(context, 'Height', 0.05),
+              height: sizeSetter(context, 'Height', 0.05),
             ),
             MajorButton(
               onPress: () {
@@ -220,11 +244,11 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               buttonColour: kLightPrimaryColour,
               buttonTextColour: kPrimaryTextColour,
               buttonText: 'CONFIRM',
-              buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+              buttonWidth: sizeSetter(context, 'Width', kAuthButtonWidthRatio),
               buttonHeight:
                   MediaQuery.of(context).orientation == Orientation.portrait
-                      ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                      : kSizeSetter(context, 'Height', 0.15),
+                      ? sizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                      : sizeSetter(context, 'Height', 0.15),
             ),
           ],
         ),
@@ -275,11 +299,11 @@ class DeleteAccountDialog extends StatelessWidget {
             buttonColour: kLightPrimaryColour,
             buttonTextColour: kPrimaryTextColour,
             buttonText: 'Delete Account',
-            buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+            buttonWidth: sizeSetter(context, 'Width', kAuthButtonWidthRatio),
             buttonHeight:
                 MediaQuery.of(context).orientation == Orientation.portrait
-                    ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                    : kSizeSetter(context, 'Height', 0.15),
+                    ? sizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                    : sizeSetter(context, 'Height', 0.15),
           ),
         ],
       ),

@@ -1,5 +1,4 @@
 import 'package:bonga/views/search_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -26,15 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
       });
-    }
-
-    if (user != null) {
-      () async {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .set({"isOnline": true});
-      };
     }
   }
 

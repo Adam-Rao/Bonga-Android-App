@@ -1,5 +1,8 @@
 import 'package:bonga/constants.dart';
 import 'package:bonga/controllers/authentication.dart';
+import 'package:bonga/handlers/connectivity_handler.dart';
+import 'package:bonga/handlers/navigation_handler.dart';
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:bonga/views/components/edit_detail.dart';
 import 'package:bonga/views/components/major_button.dart';
 import 'package:bonga/views/components/text.dart';
@@ -75,13 +78,13 @@ class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
 
     if (user != null) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
-        kNormalPush(context, '/home');
+        normalPush(context, '/home');
       });
     }
   }
 
   void _resetPassword() async {
-    bool userConnected = await kCheckConnectivity();
+    bool userConnected = await checkConnectivity();
 
     if (userConnected) {
       bool passwordResetSent = await Authentication.resetPassword(
@@ -105,8 +108,8 @@ class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
       children: [
         Container(
           height: MediaQuery.of(context).orientation == Orientation.portrait
-              ? kSizeSetter(context, 'Height', 0.2)
-              : kSizeSetter(context, 'Height', 0.1),
+              ? sizeSetter(context, 'Height', 0.2)
+              : sizeSetter(context, 'Height', 0.1),
           child: Center(
             child: ItemRow(
               widget._appBanner,
@@ -115,53 +118,53 @@ class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
           ),
         ),
         SizedBox(
-          height: kSizeSetter(context, 'Height', 0.1),
+          height: sizeSetter(context, 'Height', 0.1),
         ),
         Container(
           height: MediaQuery.of(context).orientation == Orientation.portrait
-              ? kSizeSetter(context, 'Height', 0.35)
-              : kSizeSetter(context, 'Height', 0.6),
+              ? sizeSetter(context, 'Height', 0.35)
+              : sizeSetter(context, 'Height', 0.6),
           child: Column(
             children: [
               MajorButton(
                 onPress: () {
-                  kNormalPush(context, '/registration');
+                  normalPush(context, '/registration');
                 },
                 buttonColour: kDarkPrimaryColour,
                 buttonTextColour: kTextPrimaryColour,
                 buttonText: 'REGISTRATION',
                 buttonWidth:
-                    kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+                    sizeSetter(context, 'Width', kAuthButtonWidthRatio),
                 buttonHeight:
                     MediaQuery.of(context).orientation == Orientation.portrait
-                        ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                        : kSizeSetter(context, 'Height', 0.15),
+                        ? sizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                        : sizeSetter(context, 'Height', 0.15),
               ),
               SizedBox(
                 height:
                     MediaQuery.of(context).orientation == Orientation.portrait
-                        ? kSizeSetter(context, 'Height', 0.05)
-                        : kSizeSetter(context, 'Height', 0.08),
+                        ? sizeSetter(context, 'Height', 0.05)
+                        : sizeSetter(context, 'Height', 0.08),
               ),
               MajorButton(
                 onPress: () {
-                  kNormalPush(context, '/login');
+                  normalPush(context, '/login');
                 },
                 buttonColour: kLightPrimaryColour,
                 buttonTextColour: kPrimaryTextColour,
                 buttonText: 'LOGIN',
                 buttonWidth:
-                    kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
+                    sizeSetter(context, 'Width', kAuthButtonWidthRatio),
                 buttonHeight:
                     MediaQuery.of(context).orientation == Orientation.portrait
-                        ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                        : kSizeSetter(context, 'Height', 0.15),
+                        ? sizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                        : sizeSetter(context, 'Height', 0.15),
               ),
               SizedBox(
                 height:
                     MediaQuery.of(context).orientation == Orientation.portrait
-                        ? kSizeSetter(context, 'Height', 0.05)
-                        : kSizeSetter(context, 'Height', 0.01),
+                        ? sizeSetter(context, 'Height', 0.05)
+                        : sizeSetter(context, 'Height', 0.01),
               ),
               Expanded(
                 child: TextButton(
@@ -169,8 +172,8 @@ class _PotraitWelcomeScreenBodyState extends State<PotraitWelcomeScreenBody> {
                     kShowBottomSheet(
                       context,
                       MediaQuery.of(context).orientation == Orientation.portrait
-                          ? kSizeSetter(context, 'Height', 0.3)
-                          : kSizeSetter(context, 'Height', 0.5),
+                          ? sizeSetter(context, 'Height', 0.3)
+                          : sizeSetter(context, 'Height', 0.5),
                       EditDetail(
                         detailController: widget._forgotPasswordController,
                         hintText: 'Enter your email address',

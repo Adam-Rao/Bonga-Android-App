@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -42,25 +41,8 @@ Function kGetDeviceWidth = (BuildContext context) {
 // Popup menu value
 enum kPopUpMenuValues { Profile, Settings, Logout }
 
-// Navigator functions
-
-Function kNormalPush = (BuildContext context, String routeName) {
-  Navigator.pushNamed(context, routeName);
-};
-
 double kAuthButtonHeightRatio = 0.08;
 double kAuthButtonWidthRatio = 0.85;
-
-Function kSizeSetter = (BuildContext context, String sizeType, double ratio) {
-  switch (sizeType) {
-    case 'Height':
-      return kGetDeviceHeight(context) * ratio;
-    case 'Width':
-      return kGetDeviceWidth(context) * ratio;
-    default:
-      break;
-  }
-};
 
 //Validators
 String kEmptyEmailValidatorError = 'Please enter an email address';
@@ -168,17 +150,6 @@ Function kShowBottomSheet =
     isScrollControlled: true,
   );
 };
-
-Future<bool> kCheckConnectivity() async {
-  var connectivityResult = await (Connectivity().checkConnectivity());
-
-  if (connectivityResult == ConnectivityResult.mobile ||
-      connectivityResult == ConnectivityResult.wifi) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 String kDeleteAccountInformation =
     'This operation is irreversible.\nAll data associated with this account will be deleted.';

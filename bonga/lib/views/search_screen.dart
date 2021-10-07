@@ -138,12 +138,23 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: ItemRow(
                           [
                             Expanded(
-                              child: AvatarContainer(
-                                20.0,
-                                false,
-                                null,
-                                'Search Screen',
-                              ),
+                              child:
+                                  _searchResults[index].profilePicture == "" ||
+                                          _searchResults[index]
+                                                  .profilePictureVisible ==
+                                              false
+                                      ? AvatarContainer(
+                                          20.0,
+                                          false,
+                                          null,
+                                          'Search Screen',
+                                        )
+                                      : AvatarContainer(
+                                          20.0,
+                                          true,
+                                          _searchResults[index].profilePicture,
+                                          'Search Screen',
+                                        ),
                             ),
                             Expanded(
                               child: AppText(
@@ -162,7 +173,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                           'username':
                                               _searchResults[index].username,
                                           'about': _searchResults[index].about,
-                                          'profile_picture': _searchResults[index].profilePicture,
+                                          'profile_picture':
+                                              _searchResults[index]
+                                                  .profilePicture,
                                           'profile_picture_visible':
                                               _searchResults[index]
                                                   .profilePictureVisible,
@@ -183,8 +196,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                         arguments: {
                                           'username':
                                               _searchResults[index].username,
-                                          'isOnline':
-                                              _searchResults[index].isOnline,
                                           'userID':
                                               _searchResults[index].userID,
                                           'profile_picture_visible':

@@ -73,6 +73,29 @@ class Authentication {
     String? emailAddress;
     String? password;
     try {
+      String _userId = FirebaseAuth.instance.currentUser!.uid;
+
+      await FirebaseFirestore.instance
+          .collection('rooms')
+          .doc(_userId)
+          .collection('messages')
+          .get()
+          .then((value) => () {
+                value.docs.forEach((element) {
+                  element.reference.delete();
+                });
+              });
+
+      await FirebaseFirestore.instance
+          .collection('rooms')
+          .doc(_userId)
+          .delete();
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_userId)
+          .delete();
+
       await FirebaseAuth.instance.currentUser!.delete();
       return true;
     } on FirebaseAuthException catch (e) {
@@ -124,6 +147,26 @@ class Authentication {
         User? user = FirebaseAuth.instance.currentUser;
 
         if (user != null) {
+          await FirebaseFirestore.instance
+          .collection('rooms')
+          .doc(user.uid)
+          .collection('messages')
+          .get()
+          .then((value) => () {
+                value.docs.forEach((element) {
+                  element.reference.delete();
+                });
+              });
+
+      await FirebaseFirestore.instance
+          .collection('rooms')
+          .doc(user.uid)
+          .delete();
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .delete();
           user.delete();
         }
         return true;
@@ -133,15 +176,6 @@ class Authentication {
   }
 
   static Future<void> signOut() async {
-    String _userID = FirebaseAuth.instance.currentUser!.uid;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(_userID)
-        .update({'isOnline': false})
-        .then((value) => FirebaseAuth.instance.signOut())
-        .onError(
-          (error, stackTrace) =>
-              Fluttertoast.showToast(msg: 'Logout failed. Try Again'),
-        );
+    await FirebaseAuth.instance.signOut();
   }
 }

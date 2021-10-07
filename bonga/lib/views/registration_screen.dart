@@ -1,8 +1,9 @@
 import 'package:bonga/constants.dart';
 import 'package:bonga/controllers/authentication.dart';
+import 'package:bonga/handlers/connectivity_handler.dart';
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'components/form_field.dart';
 import 'components/major_button.dart';
@@ -43,7 +44,7 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
         _confirmPasswordTextFieldController.text) {
       Fluttertoast.showToast(msg: 'Passwords not matching');
     } else {
-      bool userConnected = await kCheckConnectivity();
+      bool userConnected = await checkConnectivity();
       bool userRegistered;
 
       setState(() {
@@ -79,69 +80,67 @@ class _RegistrationScreenFormState extends State<RegistrationScreenForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ModalProgressHUD(
-        inAsyncCall: _registering,
-        child: Container(
-          child: Form(
-            key: _registrationFormKey,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: kSizeSetter(context, 'Height', 0.1),
-                ),
-                AuthFormField(
-                  textFieldController: _emailTextFieldController,
-                  hintText: 'Enter your email address',
-                  emptyFieldValidatorError: kEmptyEmailValidatorError,
-                  invalidFieldValidatorError: kInvalidEmailValidatorError,
-                  keyboardType: TextInputType.emailAddress,
-                  isPasswordField: false,
-                ),
-                SizedBox(
-                  height: kSizeSetter(context, 'Height', 0.05),
-                ),
-                AuthFormField(
-                  textFieldController: _passwordTextFieldController,
-                  hintText: 'Password',
-                  emptyFieldValidatorError: kEmptyPasswordValidatorError,
-                  invalidFieldValidatorError: kInvalidPasswordValidatorError,
-                  keyboardType: TextInputType.visiblePassword,
-                  isPasswordField: true,
-                ),
-                SizedBox(
-                  height: kSizeSetter(context, 'Height', 0.05),
-                ),
-                AuthFormField(
-                  textFieldController: _confirmPasswordTextFieldController,
-                  hintText: 'Re-enter your password',
-                  emptyFieldValidatorError: kEmptyPasswordValidatorError,
-                  invalidFieldValidatorError: kInvalidPasswordValidatorError,
-                  keyboardType: TextInputType.visiblePassword,
-                  isPasswordField: true,
-                ),
-                SizedBox(
-                  height: kSizeSetter(context, 'Height', 0.05),
-                ),
-                MajorButton(
-                  onPress: () {
-                    if (_registrationFormKey.currentState!.validate()) {
-                      _registerNewUser(context);
-                    }
-                  },
-                  buttonColour: kDarkPrimaryColour,
-                  buttonTextColour: kTextPrimaryColour,
-                  buttonText: 'REGISTER',
-                  buttonWidth: kSizeSetter(context, 'Width', kAuthButtonWidthRatio),
-                  buttonHeight:
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? kSizeSetter(context, 'Height', kAuthButtonHeightRatio)
-                          : kSizeSetter(context, 'Height', 0.15),
-                ),
-              ],
-            ),
+    return Form(
+      key: _registrationFormKey,
+      child: Column(
+        children: [
+          SizedBox(
+            height: sizeSetter(context, 'Height', 0.1),
           ),
-        ),
+          AuthFormField(
+            textFieldController: _emailTextFieldController,
+            hintText: 'Enter your email address',
+            emptyFieldValidatorError: kEmptyEmailValidatorError,
+            invalidFieldValidatorError: kInvalidEmailValidatorError,
+            keyboardType: TextInputType.emailAddress,
+            isPasswordField: false,
+          ),
+          SizedBox(
+            height: sizeSetter(context, 'Height', 0.05),
+          ),
+          AuthFormField(
+            textFieldController: _passwordTextFieldController,
+            hintText: 'Password',
+            emptyFieldValidatorError: kEmptyPasswordValidatorError,
+            invalidFieldValidatorError: kInvalidPasswordValidatorError,
+            keyboardType: TextInputType.visiblePassword,
+            isPasswordField: true,
+          ),
+          SizedBox(
+            height: sizeSetter(context, 'Height', 0.05),
+          ),
+          AuthFormField(
+            textFieldController: _confirmPasswordTextFieldController,
+            hintText: 'Re-enter your password',
+            emptyFieldValidatorError: kEmptyPasswordValidatorError,
+            invalidFieldValidatorError: kInvalidPasswordValidatorError,
+            keyboardType: TextInputType.visiblePassword,
+            isPasswordField: true,
+          ),
+          SizedBox(
+            height: sizeSetter(context, 'Height', 0.05),
+          ),
+          MajorButton(
+            onPress: () {
+              if (_registrationFormKey.currentState!.validate()) {
+                _registerNewUser(context);
+              }
+            },
+            buttonColour: kDarkPrimaryColour,
+            buttonTextColour: kTextPrimaryColour,
+            buttonText: 'REGISTER',
+            buttonWidth: sizeSetter(context, 'Width', kAuthButtonWidthRatio),
+            buttonHeight:
+                MediaQuery.of(context).orientation == Orientation.portrait
+                    ? sizeSetter(context, 'Height', kAuthButtonHeightRatio)
+                    : sizeSetter(context, 'Height', 0.15),
+          ),
+          _registering == true
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container()
+        ],
       ),
     );
   }

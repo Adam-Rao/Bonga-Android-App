@@ -1,4 +1,5 @@
 import 'package:bonga/constants.dart';
+import 'package:bonga/handlers/size_setter_handler.dart';
 import 'package:bonga/views/components/app_bar.dart';
 import 'package:bonga/views/components/chat_screen_user_input.dart';
 import 'package:bonga/views/components/indicator.dart';
@@ -42,7 +43,12 @@ class ChatScreen extends StatelessWidget {
                   child: _args?['profile_picture'] == "" ||
                           _args?['profile_picture_visible'] == false
                       ? AvatarContainer(50.0, false, null, 'Chat Screen')
-                      : null,
+                      : AvatarContainer(
+                          50.0,
+                          true,
+                          _args?['profile_picture'],
+                          'Chat Screen',
+                        ),
                 ),
               ),
             ),
@@ -117,6 +123,7 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                         );
                       } else if (snapshot.hasData) {
                         return ListView.separated(
+                          reverse: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             Map<String, dynamic> _message =
@@ -132,10 +139,10 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
                                   child: Padding(
                                     padding: _message['author_id'] != _userID
                                         ? EdgeInsets.only(
-                                            right: kSizeSetter(
+                                            right: sizeSetter(
                                                 context, 'Width', 0.3))
                                         : EdgeInsets.only(
-                                            left: kSizeSetter(
+                                            left: sizeSetter(
                                                 context, 'Width', 0.3)),
                                     child: MessageBubble(
                                       _message['author_id'] != _userID
